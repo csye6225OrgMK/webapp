@@ -15,7 +15,6 @@ router.delete('/healthz', healthController.deleteItem);
 //PATCH
 router.patch('/healthz', healthController.patchItem);
 //any other request
-router.get('*', healthController.invalidRequestItem);
 
 
 module.exports = router
