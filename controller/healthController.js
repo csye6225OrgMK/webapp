@@ -15,6 +15,7 @@ const healthController = {
       sequelize.authenticate().then(() => { 
       return res.status(200).json();        // status is okay
     }).catch((err) => {
+        console.log(err);
       return res.status(503).json();       // service unavailable
     })
   },
