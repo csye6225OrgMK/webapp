@@ -2,10 +2,10 @@ const sequelize = require('../dbconnection')  // imports the db connection
 
 const healthController = {
   getItems:(req, res) => {
-    //console.log({param: req.query});
+    console.log({param: req.query});
     if (Object.keys(req.body).length !== 0 || Object.keys(req.query).length !== 0) {
       console.log({body: req.body});
-      return res.status(400).json();
+      return res.status(405).json();
    }
       res.set({'Cache-Control': 'no-cache, no-store, must-revalidate;', 
       'Pragma': 'no-cache',
@@ -53,7 +53,18 @@ const healthController = {
     res.removeHeader('X-Powered-By')
     res.removeHeader('Content-Type')
     res.status(405).json();               // Method not accepted
+  },
+
+  invalidRequestItem:(req,res) => {
+    //console.log('resource not found');
+    res.set({'Cache-Control': 'no-cache, no-store, must-revalidate;', 
+    'Pragma': 'no-cache',
+    'X-Content-Type-Options': 'nosniff'})     
+    res.removeHeader('X-Powered-By')
+    res.removeHeader('Content-Type')
+    return res.status(404).json();
   }
+
 }
 
 module.exports  = healthController
