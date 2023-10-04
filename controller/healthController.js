@@ -19,7 +19,7 @@ const healthController = {
     })
   },
 
-  createItem:(req,res) => {
+  createItem:() => {
     res.set({'Cache-Control': 'no-cache, no-store, must-revalidate;', 
     'Pragma': 'no-cache',
     'X-Content-Type-Options': 'nosniff'})     
@@ -28,7 +28,7 @@ const healthController = {
     res.status(405).json();               // Method not accepted
   },
 
-  updateItem:(req,res) => {
+  updateItem:() => {
     res.set({'Cache-Control': 'no-cache, no-store, must-revalidate;', 
     'Pragma': 'no-cache',
     'X-Content-Type-Options': 'nosniff'})     
@@ -37,7 +37,7 @@ const healthController = {
     res.status(405).json();               // Method not accepted
   },
 
-  deleteItem:(req,res) => {
+  deleteItem:() => {
     res.set({'Cache-Control': 'no-cache, no-store, must-revalidate;', 
     'Pragma': 'no-cache',
     'X-Content-Type-Options': 'nosniff'})     
@@ -46,7 +46,7 @@ const healthController = {
     res.status(405).json();               // Method not accepted
   },
 
-  patchItem:(req,res) => {
+  patchItem:() => {
     res.set({'Cache-Control': 'no-cache, no-store, must-revalidate;', 
     'Pragma': 'no-cache',
     'X-Content-Type-Options': 'nosniff'})     
@@ -55,7 +55,7 @@ const healthController = {
     res.status(405).json();               // Method not accepted
   },
 
-  invalidRequestItem:(req,res) => {
+  invalidRequestItem:() => {
     //console.log('resource not found');
     res.set({'Cache-Control': 'no-cache, no-store, must-revalidate;', 
     'Pragma': 'no-cache',
