@@ -24,7 +24,7 @@ jobs:
         run: npm install
 
       - name: Test cases
-        run: npm test healthcheck.test.js
+        run: npx jest healthcheck.test.js
 
       - name: Building the Artifacts
         run: zip -r release.zip .
