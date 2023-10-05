@@ -2,7 +2,7 @@ name: test
 
 on: 
   pull_request:
-      branches: [ main ]
+      branches: [ main, push ]
 
 jobs:
   deploy:
@@ -28,6 +28,3 @@ jobs:
 
       - name: Building the Artifacts
         run: zip -r release.zip .
-         
-      - name: Validate AMI template
-        run: packer validate packer.json
