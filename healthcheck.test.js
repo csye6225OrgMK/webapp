@@ -1,6 +1,6 @@
 const express = require('express');
 const request = require('supertest');
-const healthCheck = require('healthcheck.js');
+const healthCheck = require('./healthcheck');
 
 describe('Health Check', () => {
   let app;
