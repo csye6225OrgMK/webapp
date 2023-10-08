@@ -1,8 +1,7 @@
+
 name: test
 
-on: 
-  pull_request:
-      branches: [ main, push ]
+on: [push]
 
 jobs:
   deploy:
@@ -24,7 +23,7 @@ jobs:
         run: npm install
 
       - name: Test cases
-        run: npx jest healthcheck.test.js
+        run: npx jest
 
       - name: Building the Artifacts
         run: zip -r release.zip .
