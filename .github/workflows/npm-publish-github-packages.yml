@@ -19,30 +19,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup MySql
-#        uses: mirromutth/mysql-action@v1.1
-        with:
-          mysql database: ${{ secrets.DB_NAME }}
-          mysql root password: ${{ secrets.DB_PASSWORD }}
-
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: 14
-
-      - name: Setup envirornment variables
-        run: |
-          touch .env
-          echo DB_HOST=${{ secrets.DB_HOST }} >> .env
-          echo DB_NAME=${{ secrets.DB_NAME}} >> .env
-          echo DB_USERNAME=${{ secrets.DB_USERNAME }} >> .env
-          echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env
-
+  
       - name: Install dependencies
         run: npm install
 
       - name: Test cases
         run: npx jest
 
-#      - name: Building the Artifacts
-#        run: zip -r release.zip .
