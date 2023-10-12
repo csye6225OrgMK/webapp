@@ -15,12 +15,11 @@ const healthController = {
       sequelize.authenticate().then(() => { 
       return res.status(200).json();        // status is okay
     }).catch((err) => {
-        console.log(err);
       return res.status(503).json();       // service unavailable
     })
   },
 
-  createItem:(req, res) => {
+  createItem:(req,res) => {
     res.set({'Cache-Control': 'no-cache, no-store, must-revalidate;', 
     'Pragma': 'no-cache',
     'X-Content-Type-Options': 'nosniff'})     
@@ -29,7 +28,7 @@ const healthController = {
     res.status(405).json();               // Method not accepted
   },
 
-  updateItem:(req, res) => {
+  updateItem:(req,res) => {
     res.set({'Cache-Control': 'no-cache, no-store, must-revalidate;', 
     'Pragma': 'no-cache',
     'X-Content-Type-Options': 'nosniff'})     
@@ -38,7 +37,7 @@ const healthController = {
     res.status(405).json();               // Method not accepted
   },
 
-  deleteItem:(req, res) => {
+  deleteItem:(req,res) => {
     res.set({'Cache-Control': 'no-cache, no-store, must-revalidate;', 
     'Pragma': 'no-cache',
     'X-Content-Type-Options': 'nosniff'})     
@@ -47,14 +46,13 @@ const healthController = {
     res.status(405).json();               // Method not accepted
   },
 
-  patchItem:(req, res) => {
+  patchItem:(req,res) => {
     res.set({'Cache-Control': 'no-cache, no-store, must-revalidate;', 
     'Pragma': 'no-cache',
     'X-Content-Type-Options': 'nosniff'})     
     res.removeHeader('X-Powered-By')
     res.removeHeader('Content-Type')
     res.status(405).json();               // Method not accepted
-  }
   }
 }
 

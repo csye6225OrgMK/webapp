@@ -9,7 +9,7 @@ const sequelize = new Sequelize(
     // 'root',
     // '',
    {
-     host: process.env.DB_host, //DB_host
+     host: process.env.DB_HOST, //DB_host
      dialect: 'mysql',//DB
      logging: false // to avoid line 'Executing (default): SELECT 1+1 AS result'
    }
