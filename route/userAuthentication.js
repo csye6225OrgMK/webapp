@@ -32,15 +32,15 @@ try {
         return { statusCode: 200, user: existingUser };
     } else {
         //console.log('User Unauthorised');
-        return res.status(400).json({ message: 'Incorrect Password' }); // Incorrect password
+        return res.status(401).json({ message: 'Incorrect Password' }); // Incorrect password
     }
 }
 else{
-    return res.status(400).json({ message: 'Incorrect Email' });// incorrect email provided
+    return res.status(401).json({ message: 'Incorrect Email' });// incorrect email provided
 }
   } catch (error) {
     console.log('Error in handling the request', error)// Handle the error as needed
-    return res.status(403).json() //Bad request
+    return res.status(403).json() //Forbidden
   }
 }
 
