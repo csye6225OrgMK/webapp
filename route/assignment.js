@@ -9,10 +9,14 @@ router.get('/v1/assignments', AssignmentController.getAllAssignment);
 router.get('/v1/assignments/:id', AssignmentController.getAssignmentByID);
 
 // Create a new assignment (POST /api/assignments)
-router.post('/v1/assignments', AssignmentController.createAssignment);
+router.post('/v1/assignments', AssignmentController.createAssignment)
+        .get(AssignmentController.getAllAssignment)
+        .all( (req,res) => {
+            return res.status(405).end();
+        })
 
-// Update an assignment (PUT /api/assignments/:id)
-//router.patch('/v1/assignments/:id', AssignmentController.updateAssignment);
+// Update an assignment (PATCH /api/assignments/:id)
+router.patch('*', AssignmentController.updateAssignmentPatch);
 
 // Update an assignment (PUT /api/assignments/:id)
 router.put('/v1/assignments/:id', AssignmentController.updateAssignment);

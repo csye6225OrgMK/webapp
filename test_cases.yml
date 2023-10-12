@@ -2,7 +2,7 @@ name: test
 
 on: 
   pull_request:
-      branches: [ main, push ]
+      branches: [ main ]
 
 jobs:
   deploy:
@@ -24,7 +24,10 @@ jobs:
         run: npm install
 
       - name: Test cases
-        run: npx jest healthcheck.test.js
+        run: npm test healthcheck.test.js
 
       - name: Building the Artifacts
         run: zip -r release.zip .
+         
+      - name: Validate AMI template
+        run: packer validate packer.json
