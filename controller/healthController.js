@@ -2,11 +2,11 @@ const sequelize = require('../dbconnection')  // imports the db connection
 
 const healthController = {
   getItems:(req, res) => {
-    //console.log({param: req.query});
     if (Object.keys(req.body).length !== 0 || Object.keys(req.query).length !== 0) {
       console.log({body: req.body});
       return res.status(400).json();
    }
+
       res.set({'Cache-Control': 'no-cache, no-store, must-revalidate;', 
       'Pragma': 'no-cache',
       'X-Content-Type-Options': 'nosniff'})     
