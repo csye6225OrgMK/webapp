@@ -15,9 +15,10 @@ const AssignmentController = {
 
       //query to get all assignments done by this authorized user:
       const allAssignment = await Assignment.findAll({ where: { assignment_created_by_user_id: existingUser.id } });
+      //var checkAuth = allAssignment.assignment_created_by_user_id == existingUser.id;
       
-      if (!allAssignment || allAssignment.length === 0){
-        return res.status(401).json({message:'Assignment not found either because of invalid assignment id or unauthrized access'}); 
+      if (!allAssignment || allAssignment.length === 0 ){
+        return res.status(403).json({message:'Forbidden Access'}); 
       }
 
       const extractedDetails = allAssignment.map((assignment) => {
@@ -35,12 +36,12 @@ const AssignmentController = {
       return res.status(200).json(extractedDetails);
     } else {
       // Authentication failed, returning an appropriate response
-      console.log('User', error);
-      return res.status(401).json({ message: authenticationResult.message });
+      //return res.status(authenticationResult.statusCode).json({ message: authenticationResult.message });
+      return ;
     }
   } catch (error) {
     console.log('Error in handling the request', error);
-    return res.status(403).json(); 
+    return res.status(401).json({message:'Unauthorized Access'}); //Forbidden
   }
 },
 
@@ -55,9 +56,9 @@ getAssignmentByID: async (req, res) => {
     const assignment = await Assignment.findOne({ where:{ id: req.params.id }});
 
     var checkAuth = assignment.assignment_created_by_user_id == existingUser.id;
-      if (!assignment || assignment.length === 0 || !checkAuth){
-        return res.status(401).json({message:'Assignment not found either because of invalid assignment id or unauthrized access'}); 
-      }
+    if (!assignment || assignment.length === 0 || !checkAuth){
+      return res.status(403).json({message:'Forbidden Access'}); 
+    }
 
     return res.status(200).json({
       id: assignment.dataValues.id,
@@ -70,10 +71,10 @@ getAssignmentByID: async (req, res) => {
     });
   } else {
     // Authentication failed, returning an appropriate response
-    return res.status(401).json({ message: authenticationResult.message });
+    return ; //res.status(authenticationResult.statusCode).json({ message: authenticationResult.message });
   }
 } catch (error) {
-  return res.status(403).json({message:'Assignment not available'}); 
+  return res.status(401).json({message:'Unauthorized Access'}); 
 }
 },
 
@@ -103,14 +104,14 @@ createAssignment: async (req, res) => {
         deadline:assignment.deadline,});  // cannot return assignment object directly, because we doont want to send "assignment_created_by_user_id : existingUser.id" this data
     } catch (error) {
       console.log('Error in creating', error);
-      return res.status(401).json({ message:error.errors[0].message });
+      return res.status(400).json({ message:error.errors[0].message });
     }
   } else {
     // Authentication failed, returning an appropriate response
-    return res.status(401).json({ message: authenticationResult.message });
+    return ; //res.status(authenticationResult.statusCode).json({ message: authenticationResult.message });
   }
 } catch (error) {
-  return res.status(403).json({ message: 'Bad Request' }); 
+  return res.status(401).json({message:'Unauthorized Access'}); 
 }
 },
 
@@ -129,27 +130,29 @@ updateAssignment: async (req, res) => {
 
       var checkAuth = existingUser.id === existingAssignment.assignment_created_by_user_id;
       if (!existingAssignment || existingAssignment.length === 0 || !checkAuth){
-        return res.status(401).json({message:'Assignment not found under the signed in user'}); 
+        return res.status(403).json({message:'Forbidden Access'});  
       }
     try {
       const updates = req.body;
       await existingAssignment.update(updates);
       await existingAssignment.update({assignment_updated: sequelize.fn('NOW')});
-      return res.status(201).json({
-        name:existingAssignment.name,
-        points:existingAssignment.points,
-        attempts:existingAssignment.attempts,
-        deadline:existingAssignment.deadline,
-      });
+      return res.status(204).json();
+      // ({
+      //   name:existingAssignment.name,
+      //   points:existingAssignment.points,
+      //   attempts:existingAssignment.attempts,
+      //   deadline:existingAssignment.deadline,
+      // });
     } catch (error) {
-      return res.status(401).json({ message:error.errors[0].message });
+      return res.status(400).json({ message:error.errors[0].message });
     }
   } else {
     // Authentication failed, returning an appropriate response
-    return res.status(401).json({ message: authenticationResult.message });
+    //return res.status(401).json({ message: authenticationResult.message });
+    return ; //res.status(authenticationResult.statusCode).json({ message: authenticationResult.message });;
   }
 } catch (error) {
-  return res.status(403).json({message:'Bad Request'}); 
+  return res.status(401).json({message:'Unauthorized Access'}); 
 }
 },
 
@@ -163,36 +166,45 @@ deleteAssignment: async (req, res) => {
     // Authentication successful, use the user object
       const existingUser = authenticationResult.user;
       const existingAssignment = await Assignment.findOne({
-        where: { id: req.params.id } // where assignment creator id is same as the id of logged in user && assignment_id = id passed in the request
+        where: { id: req.params.id } 
       });
+
+      if(existingAssignment === null) {
+        return res.status(404).json({ message: 'Assignment not found' });
+      }
 
       if (existingAssignment.assignment_created_by_user_id === existingUser.id){
 
         const deletedRowCount = await existingAssignment.destroy({
-        where: { assignment_created_by_user_id: existingUser.id} // where assignment creator id is same as the id of logged in user && assignment_id = id passed in the request
+        where: { assignment_created_by_user_id: existingUser.id } 
       });
 
-      if (deletedRowCount === 0) {
-        // Handle the case where no rows were deleted (assignment not found)
-        return res.status(401).json({ message: 'Assignment not found under the signed in user' });
-      }
+      // if (deletedRowCount === 0) {
+      //   // Handle the case where no rows were deleted (assignment not found)
+      //   return res.status(404).json({ message: 'Assignment not found' });
+      // }
 
       }
       else{
-        return res.status(401).json({ message: 'Unauthorized access to the assignment' });
+        return res.status(403).json({ message: 'Forbidden access to the assignment' });
       }
   
       // Handle success and return a success message
-      return res.status(200).json({ message: 'Assignment deleted successfully' });
+      return res.status(204).json({ message: 'Assignment deleted successfully' });
 
   } else {
     // Authentication failed, returning an appropriate response
-    //return res.status(400).json({ message: authenticationResult.message });
+    return ; //res.status(authenticationResult.statusCode).json({ message: authenticationResult.message });;
   }
 } catch (error) {
-  return res.status(403).json({message:'Bad Request'}); 
+  return res.status(401).json({message:'Unauthorized Access'});
 }
+},
+
+updateAssignmentPatch: async (req, res) => {
+  return res.status(405).json();
 }
+
 };
 
 

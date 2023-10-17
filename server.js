@@ -26,3 +26,5 @@ const assignmentRoutes = require('./route/assignment');
 app.use('', assignmentRoutes);
 //console.log(assignmentRoutes);
 
+
+module.exports = app;

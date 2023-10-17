@@ -80,6 +80,7 @@ points:{
     type:DataTypes.INTEGER,
     allowNull:false,
     validate:{
+        isInt:{msg:'Points must be whole number'},
         min:1,
         max:100
     }
