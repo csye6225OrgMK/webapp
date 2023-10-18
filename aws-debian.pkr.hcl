@@ -48,9 +48,8 @@ build {
 
   provisioner "file" {
     source      = "./madhura_kurhadkar_002769373_05.zip"
-    destination = "/tmp/madhura_kurhadkar_002769373_05.zip"
+    destination = "/opt/madhura_kurhadkar_002769373_05.zip"
   }
-
 
   provisioner "shell" {
     environment_vars = [
