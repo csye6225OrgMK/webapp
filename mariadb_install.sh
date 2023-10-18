@@ -37,7 +37,8 @@ sudo chmod 755 /madhura_kurhadkar_002769373_05
 
 sudo unzip madhura_kurhadkar_002769373_05 -d madhura_kurhadkar_002769373_05_app
 
-sudo cd /madhura_kurhadkar_002769373_05 || exit
+cd /madhura_kurhadkar_002769373_05 || exit
+
 
 echo "Hello, starting with project installation at $DEST_DIR"
 
