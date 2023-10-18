@@ -29,6 +29,8 @@ jobs:
       - name: Create Directory
         run: |
           mkdir -p /madhura_kurhadkar_002769373_05
+          sudo chown -R $USER:$USER /madhura_kurhadkar_002769373_05
+        shell: bash
 
       - name: Set up Environment Variables
         run: |
