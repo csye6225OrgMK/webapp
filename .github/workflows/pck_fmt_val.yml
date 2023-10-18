@@ -1,0 +1,28 @@
+name: Build AMI with Packer
+
+on:
+  pull_request:
+    types:
+      - closed
+
+ 
+
+jobs:
+  create-zip:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Create Zip Archive
+        run: |
+          zip -r madhura_kurhadkar_002769373_05.zip.zip .
+      - name: Build AMI
+        run: |
+          packer init ./packer/ami.us-east-1.pkr.hcl
+          packer fmt ./packer/ami.us-east-1.pkr.hcl
+          packer validate ./packer/ami.us-east-1.pkr.hcl
+          packer build ./packer/ami.us-east-1.pkr.hcl
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
