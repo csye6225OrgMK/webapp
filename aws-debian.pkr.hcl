@@ -29,8 +29,8 @@ source "amazon-ebs" "debian" {
   ssh_username    = "${var.ssh_username}"
   region          = "${var.aws_region}"
   // ami_users = [
-  //   "",
-  //   "",
+  //   "dev",
+  //   "demo",
   // ]
   ami_regions = [
     "us-east-1",
@@ -48,7 +48,7 @@ build {
 
   provisioner "file" {
     source      = "./madhura_kurhadkar_002769373_05.zip"
-    destination = "/tmp/madhura_kurhadkar_002769373_05.zip"
+    destination = "/opt/madhura_kurhadkar_002769373_05.zip"
   }
 
   provisioner "shell" {
@@ -57,8 +57,8 @@ build {
       "CHECKPOINT_DISABLE=1"
     ]
     script            = "mariadb_install.sh" // MariaDB, mysql installation on debian
-    expect_disconnect = true
-    valid_exit_codes  = [0, 2300218]
+    // expect_disconnect = true
+    // valid_exit_codes  = [0, 2300218]
   }
 
 }
