@@ -53,6 +53,7 @@ EOL
 echo ".env file has been created at: madhura_kurhadkar_002769373_05/.env"
 cat "madhura_kurhadkar_002769373_05/.env"
 
+
 # Install project dependencies (if package.json exists)
 if [ -f "package.json" ]; then
     echo "Installing project dependencies..."
