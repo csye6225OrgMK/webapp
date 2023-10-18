@@ -26,13 +26,14 @@ sudo mysql --execute="ALTER USER 'root'@'localhost' IDENTIFIED BY 'root'; FLUSH 
 
 # mkdir /opt/madhura_kurhadkar_002769373_05
 
-sudo chmod -R 755 /opt
-sudo mkdir -p /opt/madhura_kurhadkar_002769373_05
-sudo chmod 777 /opt/madhura_kurhadkar_002769373_05
+# sudo chmod -R 755 /tmp
+sudo mkdir -p /madhura_kurhadkar_002769373_05
+# sudo chmod 777 /tmp/madhura_kurhadkar_002769373_05
 
-sudo unzip "/opt/madhura_kurhadkar_002769373_05.zip" -d "/opt/madhura_kurhadkar_002769373_05"
+sudo unzip "/madhura_kurhadkar_002769373_05.zip" -d "/madhura_kurhadkar_002769373_05"
 
-cd /opt/madhura_kurhadkar_002769373_05 || exit
+cd /madhura_kurhadkar_002769373_05 || exit
+
 
 
 # Install project dependencies (if package.json exists)
