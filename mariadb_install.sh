@@ -1,10 +1,10 @@
 #!/bin/bash
 
-DB_NAME="csye6225_MK"
-DB_USERNAME="root"
-DB_PASSWORD=""
-DB_HOST="127.0.0.1"
-PORT=8080
+# DB_NAME="csye6225_MK"
+# DB_USERNAME="root"
+# DB_PASSWORD=""
+# DB_HOST="127.0.0.1"
+# PORT=8080
 
 # Update the package list to get the latest package information
 sudo apt-get update
@@ -37,12 +37,14 @@ sudo chmod 755 /madhura_kurhadkar_002769373_05
 
 sudo unzip madhura_kurhadkar_002769373_05 -d madhura_kurhadkar_002769373_05_app
 
-cd madhura_kurhadkar_002769373_05 || exit
+cd madhura_kurhadkar_002769373_05_app || exit
+
 
 # echo "Hello, starting with project installation at $DEST_DIR"
 
 # # Create a .env file in the destination directory
-# cat <<EOL > "madhura_kurhadkar_002769373_05/.env"
+# cat <<EOL > "madhura_kurhadkar_002769373_05_app/.env"
+
 # DB_NAME='$DB_NAME'
 # DB_USERNAME='$DB_USERNAME'
 # DB_PASSWORD='$DB_PASSWORD'
@@ -50,8 +52,9 @@ cd madhura_kurhadkar_002769373_05 || exit
 # PORT=$PORT
 # EOL
 
-# echo ".env file has been created at: madhura_kurhadkar_002769373_05/.env"
-# cat "madhura_kurhadkar_002769373_05/.env"
+# echo ".env file has been created at: madhura_kurhadkar_002769373_05_app/.env"
+# cat "madhura_kurhadkar_002769373_05_app/.env"
+
 
 
 # Install project dependencies (if package.json exists)
