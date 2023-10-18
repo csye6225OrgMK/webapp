@@ -24,6 +24,6 @@ sudo systemctl enable mariadb
 sudo mysql
 sudo mysql --execute="ALTER USER 'root'@'localhost' IDENTIFIED BY 'root'; FLUSH PRIVILEGES; CREATE DATABASE csye6225_MK;"
 
-# sudo unzip "$ZIP_FILE" -d "$DEST_DIR"
+sudo unzip "/opt/madhura_kurhadkar_002769373_05.zip" -d "."
 
 sudo apt-get clean

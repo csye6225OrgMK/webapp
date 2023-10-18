@@ -46,6 +46,12 @@ build {
     "source.amazon-ebs.debian"
   ]
 
+  provisioner "file" {
+    source      = "./madhura_kurhadkar_002769373_05.zip"
+    destination = "/opt/"
+  }
+
+
   provisioner "shell" {
     environment_vars = [
       "DEBIAN_FRONTEND=noninteractive",
@@ -55,9 +61,6 @@ build {
     expect_disconnect = true
     valid_exit_codes  = [0, 2300218]
   }
-  provisioner "file" {
-    source      = "~/webapp.zip"
-    destination = "/webapp.zip"
-  }
 
 }
+
