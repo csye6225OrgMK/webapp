@@ -1,8 +1,60 @@
+# name: test
+
+# on:
+#   push:
+#     branches: [ "main" ]
+#   pull_request:
+#     branches: [ "main" ]
+#   workflow_dispatch:
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+
+#     services:
+#       mysql:
+#         image: mysql:5.7
+#         env:
+#           MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+#           MYSQL_ROOT_HOST: '%'
+#           MYSQL_DATABASE: ${{ secrets.DB_DATABASE }}
+#         ports:
+#           - 3306:3306
+#         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
+
+#     steps:
+#       - name: Checkout Code
+#         uses: actions/checkout@v2
+
+#       - name: Set up Environment Variables
+#         run: |
+#           echo "PORT=${{ secrets.PORT }}" > .env
+#           echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
+#           echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
+#           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+#           echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+#           echo "Contents of .env file:"
+#           cat .env
+#           echo "List files in the current directory:"
+#           ls -a .
+#           echo "List files in GitHub workspace:"
+#           ls -a ${{ github.workspace }}
+#       - name: Set up Node.js
+#         uses: actions/setup-node@v2
+#         with:
+#           node-version: 14
+
+#       - name: Install Dependencies
+#         run: npm install
+
+#       - name: Run Integration Tests
+#         run: npm run test
+
+
 name: test
 
 on:
-  # push:
-  #   branches: [ "main" ]
+
   pull_request:
     branches: [ "main" ]
 
