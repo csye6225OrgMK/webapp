@@ -43,7 +43,7 @@ if [ -f "package.json" ]; then
 fi
 
 # # Run your Node.js file
-echo "Running your Node.js file..."
-node server.js
-sudo apt-get clean
+# echo "Run your Node.js file..."
+# node server.js
+# sudo apt-get clean
 
