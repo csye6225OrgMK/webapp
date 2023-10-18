@@ -39,6 +39,7 @@ sudo unzip madhura_kurhadkar_002769373_05 -d madhura_kurhadkar_002769373_05_app
 
 cd /madhura_kurhadkar_002769373_05 || exit
 
+
 echo "Hello, starting with project installation at $DEST_DIR"
 
 # Create a .env file in the destination directory
