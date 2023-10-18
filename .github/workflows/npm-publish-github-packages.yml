@@ -29,7 +29,7 @@ jobs:
       - name: Create Directory
         run: |
           sudo mkdir -p /madhura_kurhadkar_002769373_05
-          sudo chmod 666 /madhura_kurhadkar_002769373_05
+          sudo chmod 777 /madhura_kurhadkar_002769373_05
         shell: bash
 
       - name: Set up Environment Variables
