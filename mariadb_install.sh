@@ -28,9 +28,10 @@ sudo mysql --execute="ALTER USER 'root'@'localhost' IDENTIFIED BY 'root'; FLUSH 
 
 sudo mkdir -p /opt/madhura_kurhadkar_002769373_05
 sudo chmod 777 /opt/madhura_kurhadkar_002769373_05
-sudo unzip "/opt/madhura_kurhadkar_002769373_05.zip" -d "/madhura_kurhadkar_002769373_05"
 
-cd /madhura_kurhadkar_002769373_05 || exit
+sudo unzip "/opt/madhura_kurhadkar_002769373_05.zip" -d "/opt/madhura_kurhadkar_002769373_05"
+
+cd /opt/madhura_kurhadkar_002769373_05 || exit
 
 # Install project dependencies (if package.json exists)
 if [ -f "package.json" ]; then
