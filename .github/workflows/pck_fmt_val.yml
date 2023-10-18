@@ -17,6 +17,7 @@ jobs:
       - name: Create Zip Archive
         run: |
           zip -r ./madhura_kurhadkar_002769373_05.zip .
+
       - name: Build AMI
         run: |
           packer init aws-debian.pkr.hcl
