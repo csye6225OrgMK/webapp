@@ -30,7 +30,7 @@ jobs:
         run: |
           sudo mkdir -p /madhura_kurhadkar_002769373_05
           sudo chmod 666 /madhura_kurhadkar_002769373_05
-        # shell: bash
+        shell: bash
 
       - name: Set up Environment Variables
         run: |
@@ -45,6 +45,7 @@ jobs:
           sudo ls -al
           echo "List files in GitHub workspace:"
           sudo ls -a ${{ github.workspace }}
+        shell: bash
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
