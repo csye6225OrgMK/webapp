@@ -30,9 +30,10 @@ sudo mysql --execute="ALTER USER 'root'@'localhost' IDENTIFIED BY 'root'; FLUSH 
 sudo mkdir -p /madhura_kurhadkar_002769373_05
 sudo chmod 755 /madhura_kurhadkar_002769373_05
 
-sudo unzip "/madhura_kurhadkar_002769373_05.zip" -d "/madhura_kurhadkar_002769373_05"
+sudo unzip madhura_kurhadkar_002769373_05 -d madhura_kurhadkar_002769373_05_app
 
-cd /madhura_kurhadkar_002769373_05 || exit
+
+
 
 
 
