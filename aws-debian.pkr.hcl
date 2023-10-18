@@ -29,8 +29,8 @@ source "amazon-ebs" "debian" {
   ssh_username    = "${var.ssh_username}"
   region          = "${var.aws_region}"
   // ami_users = [
-  //   "",
-  //   "",
+  //   "dev",
+  //   "demo",
   // ]
   ami_regions = [
     "us-east-1",
@@ -48,7 +48,7 @@ build {
 
   provisioner "file" {
     source      = "./madhura_kurhadkar_002769373_05.zip"
-    destination = "/tmp/madhura_kurhadkar_002769373_05.zip"
+    destination = "/opt/madhura_kurhadkar_002769373_05.zip"
   }
 
   provisioner "shell" {
