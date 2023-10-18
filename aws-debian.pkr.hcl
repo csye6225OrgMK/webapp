@@ -28,10 +28,10 @@ source "amazon-ebs" "debian" {
   source_ami      = "${var.source_ami}"
   ssh_username    = "${var.ssh_username}"
   region          = "${var.aws_region}"
-  // ami_users = [
-  //   "dev",
-  //   "demo",
-  // ]
+  ami_users = [
+    "327639544361", //dev
+    "287116989003", //demo
+  ]
   ami_regions = [
     "us-east-1",
     // "us-east-2",
