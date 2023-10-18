@@ -37,21 +37,21 @@ sudo chmod 755 /madhura_kurhadkar_002769373_05
 
 sudo unzip madhura_kurhadkar_002769373_05 -d madhura_kurhadkar_002769373_05_app
 
-cd /madhura_kurhadkar_002769373_05 || exit
+cd madhura_kurhadkar_002769373_05 || exit
 
-echo "Hello, starting with project installation at $DEST_DIR"
+# echo "Hello, starting with project installation at $DEST_DIR"
 
-# Create a .env file in the destination directory
-cat <<EOL > "madhura_kurhadkar_002769373_05/.env"
-DB_NAME='$DB_NAME'
-DB_USERNAME='$DB_USERNAME'
-DB_PASSWORD='$DB_PASSWORD'
-DB_HOST='$DB_HOST'
-PORT=$PORT
-EOL
+# # Create a .env file in the destination directory
+# cat <<EOL > "madhura_kurhadkar_002769373_05/.env"
+# DB_NAME='$DB_NAME'
+# DB_USERNAME='$DB_USERNAME'
+# DB_PASSWORD='$DB_PASSWORD'
+# DB_HOST='$DB_HOST'
+# PORT=$PORT
+# EOL
 
-echo ".env file has been created at: madhura_kurhadkar_002769373_05/.env"
-cat "madhura_kurhadkar_002769373_05/.env"
+# echo ".env file has been created at: madhura_kurhadkar_002769373_05/.env"
+# cat "madhura_kurhadkar_002769373_05/.env"
 
 
 # Install project dependencies (if package.json exists)
