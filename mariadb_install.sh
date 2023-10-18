@@ -1,10 +1,10 @@
 #!/bin/bash
 
-DB_NAME="csye6225_MK"
-DB_USERNAME="root"
-DB_PASSWORD=""
-DB_HOST="127.0.0.1"
-PORT=8080
+# DB_NAME="csye6225_MK"
+# DB_USERNAME="root"
+# DB_PASSWORD=""
+# DB_HOST="127.0.0.1"
+# PORT=8080
 
 # Update the package list to get the latest package information
 sudo apt-get update
