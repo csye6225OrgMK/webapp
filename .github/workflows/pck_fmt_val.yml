@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Create Zip Archive
         run: |
-          zip -r Yash_Bhatia_002791499_03.zip .
+          zip -r madhura_kurhadkar_002769373_05.zip.zip .
       - name: Build AMI
         run: |
           packer init ./packer/ami.us-east-1.pkr.hcl
