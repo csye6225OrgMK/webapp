@@ -26,32 +26,26 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
 
+      - name: Create Directory
+        run: |
+          sudo mkdir -p /madhura_kurhadkar_002769373_05
+          sudo chmod 777 /madhura_kurhadkar_002769373_05
+        shell: bash
+
       - name: Set up Environment Variables
         run: |
-          echo "PORT=${{ secrets.PORT }}" > .env
-          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
-          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
-          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
-          echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+          echo "PORT=${{ secrets.PORT }}" > /madhura_kurhadkar_002769373_05/.env
+          echo "DB_HOST=${{ secrets.DB_HOST }}" >> /madhura_kurhadkar_002769373_05/.env
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> /madhura_kurhadkar_002769373_05/.env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> /madhura_kurhadkar_002769373_05/.env
+          echo "DB_NAME=${{ secrets.DB_NAME }}" >> /madhura_kurhadkar_002769373_05/.env
           echo "Contents of .env file:"
-          cat .env
+          cat /madhura_kurhadkar_002769373_05/.env
           echo "List files in the current directory:"
-          ls -a .
+          sudo ls -al
           echo "List files in GitHub workspace:"
-          ls -a ${{ github.workspace }}
-      # - name: Set up Environment Variables
-      #   run: |
-      #     echo "PORT=${{ secrets.PORT }}" > .env
-      #     echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
-      #     echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
-      #     echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
-      #     echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
-      #     echo "Contents of .env file:"
-      #     cat .env
-      #     echo "List files in the current directory:"
-      #     ls -a .
-      #     echo "List files in GitHub workspace:"
-      #     ls -a ${{ github.workspace }}
+          sudo ls -a ${{ github.workspace }}
+        shell: bash
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:

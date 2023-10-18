@@ -24,9 +24,9 @@ sudo systemctl enable mariadb
 sudo mysql
 sudo mysql --execute="ALTER USER 'root'@'localhost' IDENTIFIED BY 'root'; FLUSH PRIVILEGES; CREATE DATABASE csye6225_MK;"
 
-mkdir ~/madhura_kurhadkar_002769373_05
+# mkdir /opt/madhura_kurhadkar_002769373_05
 
-sudo unzip "/tmp/madhura_kurhadkar_002769373_05.zip" -d "/madhura_kurhadkar_002769373_05"
+sudo unzip "/opt/madhura_kurhadkar_002769373_05.zip" -d "/madhura_kurhadkar_002769373_05"
 
 cd /madhura_kurhadkar_002769373_05 || exit
 
