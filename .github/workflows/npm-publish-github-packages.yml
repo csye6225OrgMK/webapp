@@ -26,21 +26,21 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
 
-      - name: Create Directory
-        run: |
-          sudo mkdir -p /opt/madhura_kurhadkar_002769373_05
-          sudo chmod 777 /opt/madhura_kurhadkar_002769373_05
-        shell: bash
+      # - name: Create Directory
+      #   run: |
+      #     sudo mkdir -p /opt/madhura_kurhadkar_002769373_05
+      #     sudo chmod 777 /opt/madhura_kurhadkar_002769373_05
+      #   shell: bash
 
       - name: Set up Environment Variables
         run: |
-          echo "PORT=${{ secrets.PORT }}" > /opt/madhura_kurhadkar_002769373_05/.env
-          echo "DB_HOST=${{ secrets.DB_HOST }}" >> /opt/madhura_kurhadkar_002769373_05/.env
-          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> /opt/madhura_kurhadkar_002769373_05/.env
-          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> /opt/madhura_kurhadkar_002769373_05/.env
-          echo "DB_NAME=${{ secrets.DB_NAME }}" >> /opt/madhura_kurhadkar_002769373_05/.env
+          echo "PORT=${{ secrets.PORT }}" > ${{ github.workspace }}/.env
+          echo "DB_HOST=${{ secrets.DB_HOST }}" >> ${{ github.workspace }}/.env
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> ${{ github.workspace }}/.env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> ${{ github.workspace }}/.env
+          echo "DB_NAME=${{ secrets.DB_NAME }}" >> ${{ github.workspace }}/.env
           echo "Contents of .env file:"
-          cat /opt/madhura_kurhadkar_002769373_05/.env
+          cat ${{ github.workspace }}/.env
           echo "List files in the current directory:"
           sudo ls -al
           echo "List files in GitHub workspace:"
