@@ -41,7 +41,7 @@ if [ -f "package.json" ]; then
     echo "Project dependencies have been installed."
 fi
 
-# Run your Node.js file
-echo "Running your Node.js file..."
-node server.js
-sudo apt-get clean
+# # Run your Node.js file
+# echo "Running your Node.js file..."
+# node server.js
+# sudo apt-get clean
