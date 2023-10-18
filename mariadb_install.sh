@@ -24,6 +24,20 @@ sudo systemctl enable mariadb
 sudo mysql
 sudo mysql --execute="ALTER USER 'root'@'localhost' IDENTIFIED BY 'root'; FLUSH PRIVILEGES; CREATE DATABASE csye6225_MK;"
 
-sudo unzip "/opt/madhura_kurhadkar_002769373_05.zip" -d "."
+mkdir ~/madhura_kurhadkar_002769373_05
 
+sudo unzip "/tmp/madhura_kurhadkar_002769373_05.zip" -d "/madhura_kurhadkar_002769373_05"
+
+cd /madhura_kurhadkar_002769373_05 || exit
+
+# Install project dependencies (if package.json exists)
+if [ -f "package.json" ]; then
+    echo "Installing project dependencies..."
+    sudo npm install
+    echo "Project dependencies have been installed."
+fi
+
+# Run your Node.js file
+echo "Running your Node.js file..."
+node server.js
 sudo apt-get clean
