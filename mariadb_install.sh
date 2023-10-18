@@ -24,15 +24,15 @@ sudo systemctl enable mariadb
 sudo mysql
 sudo mysql --execute="ALTER USER 'root'@'localhost' IDENTIFIED BY 'root'; FLUSH PRIVILEGES; CREATE DATABASE csye6225_MK;"
 
-# mkdir /opt/madhura_kurhadkar_002769373_05
+# mkdir /tmp/madhura_kurhadkar_002769373_05
 
-sudo chmod -R 755 /opt
-sudo mkdir -p /opt/madhura_kurhadkar_002769373_05
-sudo chmod 777 /opt/madhura_kurhadkar_002769373_05
+sudo chmod -R 755 /tmp
+sudo mkdir -p /tmp/madhura_kurhadkar_002769373_05
+sudo chmod 777 /tmp/madhura_kurhadkar_002769373_05
 
-sudo unzip "/opt/madhura_kurhadkar_002769373_05.zip" -d "/opt/madhura_kurhadkar_002769373_05"
+sudo unzip "/tmp/madhura_kurhadkar_002769373_05.zip" -d "/tmp/madhura_kurhadkar_002769373_05"
 
-cd /opt/madhura_kurhadkar_002769373_05 || exit
+cd /tmp/madhura_kurhadkar_002769373_05 || exit
 
 # Install project dependencies (if package.json exists)
 if [ -f "package.json" ]; then
