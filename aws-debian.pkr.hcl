@@ -57,8 +57,8 @@ build {
       "CHECKPOINT_DISABLE=1"
     ]
     script            = "mariadb_install.sh" // MariaDB, mysql installation on debian
-    // expect_disconnect = true
-    // valid_exit_codes  = [0, 2300218]
+    expect_disconnect = true
+    valid_exit_codes  = [0, 2300218]
   }
 
 }
