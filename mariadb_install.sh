@@ -32,10 +32,10 @@ sudo mysql --execute="ALTER USER 'root'@'localhost' IDENTIFIED BY 'root'; FLUSH 
 # mkdir /opt/madhura_kurhadkar_002769373_05
 
 # sudo chmod -R 755 /tmp
-sudo mkdir -p /madhura_kurhadkar_002769373_05
-sudo chmod 755 /madhura_kurhadkar_002769373_05
+sudo mkdir -p ~/madhura_kurhadkar_002769373_06
+sudo chmod 755 ~/madhura_kurhadkar_002769373_06
 
-sudo unzip madhura_kurhadkar_002769373_05 -d madhura_kurhadkar_002769373_05_app
+sudo unzip madhura_kurhadkar_002769373_06 -d ~/madhura_kurhadkar_002769373_05_app
 
 cd madhura_kurhadkar_002769373_05_app || exit
 
@@ -67,5 +67,5 @@ fi
 # # Run your Node.js file
 # echo "Run your Node.js file..."
 # node server.js
-# sudo apt-get clean
+sudo apt-get clean
 

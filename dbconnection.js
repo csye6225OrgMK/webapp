@@ -7,11 +7,9 @@ const sequelize = new Sequelize(
     process.env.DB_NAME, //DB_name
     process.env.DB_USERNAME, //DB_user_name
     process.env.DB_PASSWORD, //DB_password
-    
-    // 'csye6225',
-    // 'root',
-    // '',
+
    {
+     port: process.env.PORT,
      host: process.env.DB_HOST, //DB_host
      dialect: 'mysql',//DB
      logging: false // to avoid line 'Executing (default): SELECT 1+1 AS result'
