@@ -46,11 +46,15 @@ sudo apt-get clean
 sudo apt remove git -y
 sudo groupadd csye6225
 sudo useradd -s /bin/false -g csye6225 -d /opt/csye6225 -m csye6225
-mkdir /opt/csye6225/madhura_kurhadkar_002769373_06
+sudo mkdir /opt/csye6225/madhura_kurhadkar_002769373_06
 sudo unzip "/tmp/madhura_kurhadkar_002769373_06.zip" -d /opt/csye6225/madhura_kurhadkar_002769373_06/
 # sudo chmod 655 "/opt/madhura_kurhadkar_002769373_06"
 (cd /opt/csye6225/madhura_kurhadkar_002769373_06 && sudo npm install)
 echo "Project dependencies have been installed."
+
+sudo chown -R csye6225:csye6225
+sudo chmod -R 755 .
+
 # Move systemd service unit file to the correct location
 sudo mv /opt/csye6225/madhura_kurhadkar_002769373_06/webapp.service /etc/systemd/system/
 # Enable and start the systemd service
