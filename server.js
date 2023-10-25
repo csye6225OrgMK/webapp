@@ -3,7 +3,7 @@ const app = express()
 const UserCreation = require('./controller/User')
 //require('dotenv').config()
 
-const PORT = process.env.PORT||8080
+const PORT = 8080
 
 app.use(express.json())
 app.listen(PORT, ()=> console.log(`App listening on port ${PORT}!`))
