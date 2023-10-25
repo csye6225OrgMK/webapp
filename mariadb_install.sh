@@ -35,15 +35,16 @@ sudo mysql --execute="ALTER USER 'root'@'localhost' IDENTIFIED BY 'root'; FLUSH 
 sudo mkdir -p ~/madhura_kurhadkar_002769373_06
 sudo chmod 755 ~/madhura_kurhadkar_002769373_06
 
-sudo unzip madhura_kurhadkar_002769373_06 -d ~/madhura_kurhadkar_002769373_05_app
+sudo unzip madhura_kurhadkar_002769373_06 -d ~/madhura_kurhadkar_002769373_06_app
 
-cd madhura_kurhadkar_002769373_05_app || exit
+
+cd ~/madhura_kurhadkar_002769373_06_app || exit
 
 
 # echo "Hello, starting with project installation at $DEST_DIR"
 
 # # Create a .env file in the destination directory
-# cat <<EOL > "madhura_kurhadkar_002769373_05_app/.env"
+# cat <<EOL > "madhura_kurhadkar_002769373_06_app/.env"
 
 # DB_NAME='$DB_NAME'
 # DB_USERNAME='$DB_USERNAME'
@@ -53,7 +54,7 @@ cd madhura_kurhadkar_002769373_05_app || exit
 # EOL
 
 # echo ".env file has been created at: madhura_kurhadkar_002769373_05_app/.env"
-# cat "madhura_kurhadkar_002769373_05_app/.env"
+# cat "madhura_kurhadkar_002769373_06_app/.env"
 
 
 
