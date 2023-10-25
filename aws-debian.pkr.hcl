@@ -47,7 +47,7 @@ build {
   ]
 
   provisioner "file" {
-    source      = "madhura_kurhadkar_002769373_05.zip"
+    source      =   "madhura_kurhadkar_002769373_05.zip"
     destination = "~/madhura_kurhadkar_002769373_05"
 
   }
