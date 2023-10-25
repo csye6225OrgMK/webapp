@@ -41,6 +41,7 @@ source "amazon-ebs" "debian" {
 }
 
 
+
 build {
   sources = [
     "source.amazon-ebs.debian"
