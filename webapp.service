@@ -1,14 +1,14 @@
 [Unit]
 Description=CSYE 6225 webapp service
-ConditionPathExists=/home/admin/madhura_kurhadkar_002769373_05_app
+ConditionPathExists=/home/admin/madhura_kurhadkar_002769373_06
 After=network.target
 
 [Service]
 Type=simple
-User=admin
-Group=admin
-WorkingDirectory=/home/admin/madhura_kurhadkar_002769373_05_app
-ExecStart=/usr/bin/node /home/admin/madhura_kurhadkar_002769373_05_app/server.js
+User=csye6225
+Group=csye6225
+WorkingDirectory=/home/admin/madhura_kurhadkar_002769373_06
+ExecStart=/usr/bin/node /home/admin/madhura_kurhadkar_002769373_06/server.js
 Restart=always
 RestartSec=3
 StandardOutput=syslog

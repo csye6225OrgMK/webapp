@@ -26,47 +26,34 @@ sudo apt-get install -y unzip
 
 # Set the root password for MariaDB
 # sudo mysqladmin -u root password "$ROOT_PASSWORD"
-sudo mysql
-sudo mysql --execute="ALTER USER 'root'@'localhost' IDENTIFIED BY 'root'; FLUSH PRIVILEGES; CREATE DATABASE csye6225_MK;"
+# sudo mysql
+# sudo mysql --execute="ALTER USER 'root'@'localhost' IDENTIFIED BY 'root'; FLUSH PRIVILEGES; CREATE DATABASE csye6225_MK;"
 
-# mkdir /opt/madhura_kurhadkar_002769373_05
-
-# sudo chmod -R 755 /tmp
-sudo mkdir -p ~/madhura_kurhadkar_002769373_06
-sudo chmod 755 ~/madhura_kurhadkar_002769373_06
-
-sudo unzip madhura_kurhadkar_002769373_06 -d ~/madhura_kurhadkar_002769373_06_app
-
-
-cd ~/madhura_kurhadkar_002769373_06_app || exit
-
-
-# echo "Hello, starting with project installation at $DEST_DIR"
-
-# # Create a .env file in the destination directory
-# cat <<EOL > "madhura_kurhadkar_002769373_06_app/.env"
-
-# DB_NAME='$DB_NAME'
-# DB_USERNAME='$DB_USERNAME'
-# DB_PASSWORD='$DB_PASSWORD'
-# DB_HOST='$DB_HOST'
-# PORT=$PORT
-# EOL
-
-# echo ".env file has been created at: madhura_kurhadkar_002769373_05_app/.env"
-# cat "madhura_kurhadkar_002769373_06_app/.env"
-
-
-
-# Install project dependencies (if package.json exists)
-if [ -f "package.json" ]; then
-    echo "Installing project dependencies..."
-    sudo npm install
-    echo "Project dependencies have been installed."
-fi
-
+# sudo mkdir -p ~/madhura_kurhadkar_002769373_06
+# sudo chmod 755 ~/madhura_kurhadkar_002769373_06
+# sudo unzip madhura_kurhadkar_002769373_06 -d ~/madhura_kurhadkar_002769373_06
+# cd ~/madhura_kurhadkar_002769373_06 || exit
+# # Install project dependencies (if package.json exists)
+# if [ -f "package.json" ]; then
+#     echo "Installing project dependencies..."
+#     sudo npm install
+#     echo "Project dependencies have been installed."
+# fi
 # # Run your Node.js file
 # echo "Run your Node.js file..."
 # node server.js
 sudo apt-get clean
-
+sudo apt remove git -y
+sudo groupadd csye6225
+sudo useradd -s /bin/false -g csye6225 -d /opt/csye6225 -m csye6225
+mkdir /opt/csye6225/madhura_kurhadkar_002769373_06
+sudo unzip "/tmp/madhura_kurhadkar_002769373_06.zip" -d /opt/csye6225/madhura_kurhadkar_002769373_06/
+# sudo chmod 655 "/opt/madhura_kurhadkar_002769373_06"
+(cd /opt/csye6225/madhura_kurhadkar_002769373_06 && sudo npm install)
+echo "Project dependencies have been installed."
+# Move systemd service unit file to the correct location
+sudo mv /opt/csye6225/madhura_kurhadkar_002769373_06/webapp.service /etc/systemd/system/
+# Enable and start the systemd service
+sudo systemctl enable webapp
+sudo systemctl start webapp
+sudo apt-get clean

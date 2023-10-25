@@ -28,8 +28,8 @@ jobs:
 
       # - name: Create Directory
       #   run: |
-      #     sudo mkdir -p /opt/madhura_kurhadkar_002769373_05
-      #     sudo chmod 777 /opt/madhura_kurhadkar_002769373_05
+      #     sudo mkdir -p /opt/madhura_kurhadkar_002769373_06
+      #     sudo chmod 777 /opt/madhura_kurhadkar_002769373_06
       #   shell: bash
 
       - name: Set up Environment Variables
