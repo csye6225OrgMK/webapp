@@ -44,7 +44,7 @@ build {
     "source.amazon-ebs.debian"
   ]
 
-// ----------------------------working code ------------
+  // ----------------------------working code ------------
   // provisioner "file" {
   //   source      = "madhura_kurhadkar_002769373_06.zip"
   //   destination = "~/madhura_kurhadkar_002769373_06"
@@ -60,24 +60,24 @@ build {
   //   expect_disconnect = true
   //   valid_exit_codes  = [0, 2300218]
   // }
-// ---------------------------------------------------
+  // ---------------------------------------------------
 
-provisioners = [
+  provisioners = [
     {
-      "type": "file",
-      "source": "madhura_kurhadkar_002769373_06.zip",
-      "destination": "~/madhura_kurhadkar_002769373_06"
+      "type" : "file",
+      "source" : "madhura_kurhadkar_002769373_06.zip",
+      "destination" : "~/madhura_kurhadkar_002769373_06"
     },
     {
-      "type": "shell",
-      "environment_vars": ["DEBIAN_FRONTEND=noninteractive", "CHECKPOINT_DISABLE=1"],
-      "script": "mariadb_install.sh",
-      "expect_disconnect": true,
-      "valid_exit_codes": [0, 2300218]
+      "type" : "shell",
+      "environment_vars" : ["DEBIAN_FRONTEND=noninteractive", "CHECKPOINT_DISABLE=1"],
+      "script" : "mariadb_install.sh",
+      "expect_disconnect" : true,
+      "valid_exit_codes" : [0, 2300218]
     },
     {
-      "type": "shell",
-      "script": "configure_cloudwatch_install.sh"
+      "type" : "shell",
+      "script" : "configure_cloudwatch_install.sh"
     }
   ]
 }
