@@ -62,7 +62,7 @@ build {
   // }
   // ---------------------------------------------------
 
-  provisioners = [
+  provisioner = [
     {
       "type" : "file",
       "source" : "madhura_kurhadkar_002769373_06.zip",
