@@ -34,9 +34,6 @@ source "amazon-ebs" "debian" {
   ]
   ami_regions = [
     "us-east-1",
-    // "us-east-2",
-    // "us-west-1",
-    // "us-west-2",
   ]
 }
 
@@ -59,6 +56,16 @@ build {
       "CHECKPOINT_DISABLE=1"
     ]
     script            = "mariadb_install.sh" // MariaDB, mysql installation on debian
+    expect_disconnect = true
+    valid_exit_codes  = [0, 2300218]
+  }
+
+  provisioner "shell" {
+    environment_vars = [
+      "DEBIAN_FRONTEND=noninteractive",
+      "CHECKPOINT_DISABLE=1"
+    ]
+    script            = "configure_cloudwatch_install.sh" // MariaDB, mysql installation on debian
     expect_disconnect = true
     valid_exit_codes  = [0, 2300218]
   }
