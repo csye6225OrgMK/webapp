@@ -2,7 +2,8 @@
 
 # Download and install CloudWatch Agent
 curl -O https://s3.amazonaws.com/amazoncloudwatch-agent/amazon_linux/amd64/latest/amazon-cloudwatch-agent.deb
-sudo dpkg -i amazon-cloudwatch-agent.deb
+sudo dpkg -i -E amazon-cloudwatch-agent.deb
+
 
 # Create the directory for CloudWatch Agent config
 sudo mkdir -p /opt/aws/amazon-cloudwatch-agent/etc/
