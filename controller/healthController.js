@@ -1,6 +1,6 @@
 const sequelize = require('../dbconnection')  // imports the db connection
 const logger = require('../logger');
-const { sendApiMetrics } = require('./cloudwatchMetrics');
+const { sendApiMetrics } = require('../cloudwatchMetrics');
 
 const healthController = {
   getItems:(req, res) => {
