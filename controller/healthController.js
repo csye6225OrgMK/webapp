@@ -21,7 +21,7 @@ const healthController = {
         sendApiMetrics('/healthz');
       return res.status(200).json();        // status is okay
     }).catch((err) => {
-      sendApiMetrics('/healthz');
+      logger.error('GET/v1/assignments: ERROR in connecting.');
       return res.status(503).json();       // service unavailable
     })
   },

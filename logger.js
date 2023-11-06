@@ -1,5 +1,7 @@
 const winston = require('winston');
 const WinstonCloudWatch = require('winston-cloudwatch');
+const moment = require('moment');
+
 const currentDate = moment().format('YYYY-MM-DD');
 
 // Define the log format
@@ -16,13 +18,13 @@ const logger = winston.createLogger({
   transports: [
     // Log 'info' and above messages to a file
     new winston.transports.File({
-      filename: "var/log/csye6225-${currentDate}.log",
+      filename: "var/log/csye6225.log",
       level: 'info',
     }),
 
     // Log 'error' and 'warning' messages to a separate file
     new winston.transports.File({
-      filename: "var/log/csye6225-${currentDate}.log",
+      filename: "var/log/csye6225.log",
       level: 'error',
     }),
 

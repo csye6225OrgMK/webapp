@@ -11,6 +11,7 @@ const AssignmentController = {
       const authenticationResult = await authenticateUser(req, res); // Call authenticateUser function
       if (authenticationResult.statusCode === 200) {
       // Authentication successful, use the user object
+      logger.error('GET/v1/assignments: ERROR in getting all assignments.');
       const existingUser = authenticationResult.user;
 
       //query to get all assignments done by this authorized user:
@@ -18,6 +19,7 @@ const AssignmentController = {
       //var checkAuth = allAssignment.assignment_created_by_user_id == existingUser.id;
       
       if (!allAssignment || allAssignment.length === 0 ){
+        logger.error('GET/v1/assignments: ERROR in accessing the assignments.');
         return res.status(403).json({message:'Forbidden Access'}); 
       }
 
