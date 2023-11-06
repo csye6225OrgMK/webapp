@@ -1,4 +1,6 @@
 const sequelize = require('../dbconnection')  // imports the db connection
+const logger = require('../logger');
+const { sendApiMetrics } = require('./cloudwatchMetrics');
 
 const healthController = {
   getItems:(req, res) => {
@@ -6,6 +8,9 @@ const healthController = {
       console.log({body: req.body});
       return res.status(400).json();
    }
+    logger.info('/healthz: This is an info message.');
+    logger.warn('/healthz: This is a warning message.');
+    logger.error('/healthz: This is an error message.');
 
       res.set({'Cache-Control': 'no-cache, no-store, must-revalidate;', 
       'Pragma': 'no-cache',
@@ -13,8 +18,10 @@ const healthController = {
       res.removeHeader('X-Powered-By')
       res.removeHeader('Content-Type')
       sequelize.authenticate().then(() => { 
+        sendApiMetrics('/healthz');
       return res.status(200).json();        // status is okay
     }).catch((err) => {
+      sendApiMetrics('/healthz');
       return res.status(503).json();       // service unavailable
     })
   },
