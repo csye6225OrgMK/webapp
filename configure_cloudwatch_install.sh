@@ -5,6 +5,7 @@ curl -O https://s3.amazonaws.com/amazoncloudwatch-agent/amazon_linux/amd64/lates
 sudo dpkg -i -E ./amazon-cloudwatch-agent.deb
 
 
+
 # Create the directory for CloudWatch Agent config
 sudo mkdir -p /opt/aws/amazon-cloudwatch-agent/etc/
 
