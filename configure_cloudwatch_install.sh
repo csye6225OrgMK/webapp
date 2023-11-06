@@ -7,6 +7,7 @@ sudo dpkg -i amazon-cloudwatch-agent.deb
 # Create the directory for CloudWatch Agent config
 sudo mkdir -p /opt/aws/amazon-cloudwatch-agent/etc/
 
+
 # Configure the CloudWatch Agent
 cat <<EOL | sudo tee /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
 {
