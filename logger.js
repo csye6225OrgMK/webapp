@@ -4,6 +4,7 @@ const moment = require('moment');
 
 const currentDate = moment().format('YYYY-MM-DD');
 
+
 // Define the log format
 const logFormat = winston.format.combine(
   winston.format.timestamp(),
