@@ -22,7 +22,7 @@ cat <<EOL | sudo tee /opt/csye6225/madhura_kurhadkar_002769373_06/amazon-cloudwa
       "files": {
         "collect_list": [
           {
-            "file_path": "/var/log/csye6225.log",  #/var/log/tomcat/csye6225.log
+            "file_path": "/var/log/csye6225.log", 
             "log_group_name": "csye6225",
             "log_stream_name": "webapp"
           }
