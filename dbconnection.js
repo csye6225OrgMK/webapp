@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize");
 require('dotenv').config();
-const logger = require('../logger');
+const logger = require('./logger');
+
 // console.log(process.env.DB_NAME,process.env.DB_USERNAME,process.env.DB_PASSWORD,process.env.DB_HOST);
 
 const sequelize = new Sequelize(
