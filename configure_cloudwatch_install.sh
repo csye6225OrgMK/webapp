@@ -42,5 +42,4 @@ cat <<EOL | sudo tee /opt/csye6225/madhura_kurhadkar_002769373_06/amazon-cloudwa
   }
 }
 EOL
-
-#sudo chmod 666 /var/log/csye6225.log
+sudo chown csye6225:csye6225 /opt/csye6225/madhura_kurhadkar_002769373_06/amazon-cloudwatch-agent.json
