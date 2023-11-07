@@ -19,7 +19,7 @@ const AssignmentController = {
       //var checkAuth = allAssignment.assignment_created_by_user_id == existingUser.id;
       
       if (!allAssignment || allAssignment.length === 0 ){
-        logger.error('GET/v1/assignments: ERROR in accessing the assignments.');
+        logger.error('GET/v1/assignments: ERROR in accessing the assignments');
         return res.status(403).json({message:'Forbidden Access'}); 
       }
 
