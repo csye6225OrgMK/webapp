@@ -1,7 +1,4 @@
 const winston = require('winston');
-const WinstonCloudWatch = require('winston-cloudwatch');
-const moment = require('moment');
-const currentDate = moment().format('YYYY-MM-DD');
 
 
 // Define the log format
