@@ -15,14 +15,14 @@ cat <<EOL | sudo tee /opt/csye6225/madhura_kurhadkar_002769373_06/amazon-cloudwa
 {
   "agent": {
     "metrics_collection_interval": 10,
-    "logfile": "/var/logs/amazon-cloudwatch-agent.log"
+    "logfile": "var/logs/amazon-cloudwatch-agent.log"
   },
   "logs": {
     "logs_collected": {
       "files": {
         "collect_list": [
           {
-            "file_path": "/var/log/csye6225.log",  #/var/log/tomcat/csye6225.log
+            "file_path": "var/log/csye6225.log",  #/var/log/tomcat/csye6225.log
             "log_group_name": "csye6225",
             "log_stream_name": "webapp"
           }
@@ -43,4 +43,4 @@ cat <<EOL | sudo tee /opt/csye6225/madhura_kurhadkar_002769373_06/amazon-cloudwa
 }
 EOL
 
-sudo chmod 666 /var/log/csye6225.log
+#sudo chmod 666 /var/log/csye6225.log
