@@ -6,12 +6,11 @@ sudo dpkg -i -E amazon-cloudwatch-agent.deb
 
 
 # Create the directory for CloudWatch Agent config
-sudo mkdir -p /opt/aws/amazon-cloudwatch-agent/etc/
+# sudo mkdir -p /opt/aws/amazon-cloudwatch-agent/etc/
 
 # Configure the CloudWatch Agent
-# cat <<EOL | sudo tee /opt/csye6225/madhura_kurhadkar_002769373_06/amazon-cloudwatch-agent.json
-cat <<EOL | sudo tee /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
-
+cat <<EOL | sudo tee /opt/csye6225/madhura_kurhadkar_002769373_06/amazon-cloudwatch-agent.json
+#cat <<EOL | sudo tee /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
 {
   "agent": {
     "metrics_collection_interval": 10,
@@ -22,7 +21,7 @@ cat <<EOL | sudo tee /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agen
       "files": {
         "collect_list": [
           {
-            "file_path": "/var/log/csye6225.log",
+            "file_path": "var/log/csye6225.log",
             "log_group_name": "csye6225",
             "log_stream_name": "webapp"
           }
