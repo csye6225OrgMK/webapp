@@ -1,6 +1,6 @@
 const sequelize = require('../dbconnection')  // imports the db connection
 const logger = require('../logger');
-const { sendApiMetrics } = require('../cloudwatchMetrics');
+const client = require('../cloudwatchMetrics');
 
 const healthController = {
   getItems:(req, res) => {
@@ -18,7 +18,7 @@ const healthController = {
       res.removeHeader('X-Powered-By')
       res.removeHeader('Content-Type')
       sequelize.authenticate().then(() => { 
-        sendApiMetrics('/healthz');
+      client.increment("healthz", 1);
       return res.status(200).json();        // status is okay
     }).catch((err) => {
       logger.error('GET/v1/assignments: ERROR in connecting.');
