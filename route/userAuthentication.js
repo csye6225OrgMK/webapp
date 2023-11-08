@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const {User} = require('../model/model'); // Importing Sequelize model
-//const SALT_ROUNDS = 10;
+const logger = require('../logger');
 
 async function authenticateUser(req,res) {
 try {
@@ -28,14 +28,15 @@ try {
     //console.log('hashedPassword:', passwordMatch);
     if (passwordMatch) {
          // Authentication successful
-        //return existingUser;
         return { statusCode: 200, user: existingUser };
     } else {
         //console.log('User Unauthorised');
+        logger.warn('Authentication Failed: Incorrect Password');
         return res.status(401).json({ message: 'Incorrect Password' }); // Incorrect password
     }
 }
 else{
+    logger.warn('Authentication Failed: Incorrect Email');
     return res.status(401).json({ message: 'Incorrect Email' });// incorrect email provided
 }
   } catch (error) {

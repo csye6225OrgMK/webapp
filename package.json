@@ -9,7 +9,7 @@
   "author": "Madhura Kurhadkar",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.1489.0",
+    "aws-sdk": "^2.1490.0",
     "bcrypt": "^5.1.1",
     "chai": "^4.3.10",
     "cors": "^2.8.5",

@@ -5,7 +5,7 @@ function sendApiMetrics(route) {
   cloudwatch.putMetricData({
     MetricData: [
       {
-        MetricName: 'CountAPIEndpointHits',
+        MetricName: 'CountAPIEndpointSuccess',
         Dimensions: [{ Name: 'Endpoint', Value: route }],
         Value: 1, // Increase this value for each hit
       },
