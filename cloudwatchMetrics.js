@@ -1,5 +1,8 @@
 const AWS = require('aws-sdk');
 const cloudwatch = new AWS.CloudWatch({ region: 'us-east-1' });
+const StatsD = require('node-statsd');
+const client = new StatsD({ host: 'demo.talentofpainting.info', port: 8125 });
+
 
 function sendApiMetrics(route) {
   cloudwatch.putMetricData({

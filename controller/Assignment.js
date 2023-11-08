@@ -4,7 +4,8 @@ const {authenticateUser} = require('../route/userAuthentication');
 // const {User} = require('../model/model'); // Importing Sequelize model
 const sequelize = require('../dbconnection');
 const logger = require('../logger');
-const { sendApiMetrics } = require('../cloudwatchMetrics');
+const StatsD = require('node-statsd');
+const client = new StatsD({ host: 'talentofpainting.info', port: 8125 });
 
 
 const AssignmentController = {
@@ -24,7 +25,7 @@ const AssignmentController = {
         logger.warn('GET/v1/assignments: no assigment found under this user');
         return res.status(404).json({message:'Not Found'}); 
       }
-      sendApiMetrics('/v1/assignments');
+      client.increment();
       const extractedDetails = allAssignment.map((assignment) => {
         return {
           id: assignment.id,
@@ -60,18 +61,19 @@ getAssignmentByID: async (req, res) => {
     const existingUser = authenticationResult.user;
     const assignment = await Assignment.findOne({ where:{ id: req.params.id }});
 
+    if (!assignment || assignment.length === 0){
+      logger.warn('GET/v1/assignments/' + assigmentId + ': Assignment Not Found');
+      return res.status(404).json({message:'Assignment Not Found'});  
+    }
+
     var checkAuth = assignment.assignment_created_by_user_id == existingUser.id;
 
     if (!checkAuth){
-      logger.error('GET/v1/assignments' + assigmentId + ': Forbidden Access to'+ assigmentId + 'assignments.');
+      logger.error('GET/v1/assignments' + assigmentId + ': Forbidden Access to '+ assigmentId + ' assignments.');
       return res.status(403).json({message:'Forbidden Access'}); 
     }
 
-    if (!assignment || assignment.length === 0){
-      logger.warn('GET/v1/assignments/' + assigmentId + ': no assigment found under this user');
-      return res.status(404).json({message:'Not Found'});  
-    }
-    sendApiMetrics('/v1/assignments/'+ assigmentId);
+    client.increment();
     return res.status(200).json({
       id: assignment.dataValues.id,
         name: assignment.dataValues.name,
@@ -86,7 +88,7 @@ getAssignmentByID: async (req, res) => {
     return ; //res.status(authenticationResult.statusCode).json({ message: authenticationResult.message });
   }
 } catch (error) {
-  logger.error('GET/v1/assignments: ERROR in getting this assignments.');
+  logger.error('GET/v1/assignments: ERROR in getting  '+ assigmentId + '  assignments.');
   return res.status(401).json({message:'Unauthorized Access'}); 
 }
 },
@@ -119,7 +121,7 @@ createAssignment: async (req, res) => {
         assignment_created_by_user_id : existingUser.id,
       });
 
-      sendApiMetrics('/v1/assignments');
+      client.increment();
       return res.status(201).json({name:assignment.name,
         points:assignment.points,
         attempts:assignment.attempts,
@@ -144,12 +146,12 @@ createAssignment: async (req, res) => {
 updateAssignment: async (req, res) => {
   let assigmentId = req.params.id;
   try {
-    logger.info('PUT/v1/assignments/' + assigmentId + ': Authenticating the user...');
+    logger.info('PUT/v1/assignments/' + assigmentId + ' : Authenticating the user...');
     const authenticationResult = await authenticateUser(req, res); // Call authenticateUser function
 
     if (authenticationResult.statusCode === 200) {
     // Authentication successful, use the user object
-    logger.info('PUT/v1/assignments/' + assigmentId + ': User Authenticated.');
+    logger.info('PUT/v1/assignments/ ' + assigmentId + ' : User Authenticated.');
     const existingUser = authenticationResult.user;
     const existingAssignment = await Assignment.findOne({
       where: { id: req.params.id }
@@ -157,11 +159,11 @@ updateAssignment: async (req, res) => {
 
       var checkAuth = existingUser.id === existingAssignment.assignment_created_by_user_id;
       if (!checkAuth){
-        logger.error('PUT/v1/assignments/' + assigmentId + ': Forbidden Access to'+ assigmentId + 'assignments.');
+        logger.error('PUT/v1/assignments/ ' + assigmentId + ' : Forbidden Access to '+ assigmentId + ' assignments.');
         return res.status(403).json({message:'Forbidden Access'}); 
       }
       if (!existingAssignment || existingAssignment.length === 0){
-        logger.error('PUT/v1/assignments/' + assigmentId + ': Forbidden Access to ' + assigmentId + ' assignments.');
+        logger.error('PUT/v1/assignments/ ' + assigmentId + ' : Forbidden Access to ' + assigmentId + ' assignments.');
         return res.status(403).json({message:'Forbidden Access'});  
       }
 
@@ -169,22 +171,22 @@ updateAssignment: async (req, res) => {
       const updates = req.body;
       const updatedDeadline = new Date(req.body.deadline);
       if (updatedDeadline <= new Date()) {
-        logger.error('PUT/v1/assignments/' + assigmentId + ': ERROR : The deadline must be in the future.');
+        logger.error('PUT/v1/assignments/ ' + assigmentId + ' : ERROR : The deadline must be in the future.');
         return res.status(400).json({ message:'The deadline must be in the future.' });
       }
       await existingAssignment.update(updates);
       await existingAssignment.update({assignment_updated: sequelize.fn('NOW')});
-      sendApiMetrics('/v1/assignments/'+ assigmentId);
+      client.increment();
       return res.status(204).json();
     } catch (error) {
-      logger.error('PUT/v1/assignments/' + assigmentId + ': ERROR : ' + error.errors[0].message);
+      logger.error('PUT/v1/assignments/ ' + assigmentId + ' : ERROR : ' + error.errors[0].message);
       return res.status(400).json({ message:error.errors[0].message });
     }
   } else {
     return ; //res.status(authenticationResult.statusCode).json({ message: authenticationResult.message });;
   }
 } catch (error) {
-  logger.error('PUT/v1/assignments/' + assigmentId + ': Unauthorized Access.');
+  logger.error('PUT/v1/assignments/ ' + assigmentId + ' : Unauthorized Access.');
   return res.status(401).json({message:'Unauthorized Access'}); 
 }
 },
@@ -194,37 +196,38 @@ updateAssignment: async (req, res) => {
 deleteAssignment: async (req, res) => {
   let assigmentId = req.params.id;
   try {
-    logger.info('DELETE/v1/assignments/' + assigmentId + ': Authenticating the user.');
+    logger.info('DELETE/v1/assignments/ ' + assigmentId + ' : Authenticating the user.');
     const authenticationResult = await authenticateUser(req, res); // Call authenticateUser function
 
     if (authenticationResult.statusCode === 200) {
     // Authentication successful, use the user object
-      logger.info('DELETE/v1/assignments/' + assigmentId + ': User Authenticated.');
+      logger.info('DELETE/v1/assignments/ ' + assigmentId + ' : User Authenticated.');
       const existingUser = authenticationResult.user;
       const existingAssignment = await Assignment.findOne({
         where: { id: req.params.id } 
       });
 
-      if(existingAssignment.assignment_created_by_user_id != existingUser.id) {
-        logger.error('DELETE/v1/assignments/' + assigmentId + ': Forbidden access to ' + assigmentId + ' assignment.');
-        return res.status(403).json({ message: 'Forbidden access to the assignment' });
-      }
-
       if(existingAssignment === null) {
-        logger.error('DELETE/v1/assignments/' + assigmentId + ': Assignment not found.');
+        logger.error('DELETE/v1/assignments/ ' + assigmentId + ' : Assignment not found.');
         return res.status(404).json({ message: 'Assignment not found' });
       }
 
-      if (existingAssignment.assignment_created_by_user_id === existingUser.id && existingAssignment === null){
+      if(existingAssignment.assignment_created_by_user_id != existingUser.id) {
+        logger.error('DELETE/v1/assignments/ ' + assigmentId + ' : Forbidden access to ' + assigmentId + ' assignment.');
+        return res.status(403).json({ message: 'Forbidden access to the assignment' });
+      }
+
+      if (existingAssignment.assignment_created_by_user_id === existingUser.id){
         const deletedRowCount = await existingAssignment.destroy({
         where: { assignment_created_by_user_id: existingUser.id } 
       });
-
       }
+
+
   
       // Handle success and return a success message
-      sendApiMetrics('/v1/assignments/'+ assigmentId);
-      logger.info('DELETE/v1/assignments/' + assigmentId + ': SUCCESS in deleting ' + assigmentId + ' assignment.');
+      client.increment();
+      logger.info('DELETE/v1/assignments/ ' + assigmentId + ' : SUCCESS in deleting ' + assigmentId + ' assignment.');
       return res.status(204).json({ message: 'Assignment deleted successfully' });
 
   } else {
@@ -232,7 +235,7 @@ deleteAssignment: async (req, res) => {
     return ; //res.status(authenticationResult.statusCode).json({ message: authenticationResult.message });;
   }
 } catch (error) {
-  logger.error('DELETE/v1/assignments/' + assigmentId + ': Unauthorized Access.');
+  logger.error('DELETE/v1/assignments/ ' + assigmentId + ' : Unauthorized Access.');
   return res.status(401).json({message:'Unauthorized Access'});
 }
 },
