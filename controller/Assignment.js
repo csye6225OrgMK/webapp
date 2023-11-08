@@ -106,7 +106,7 @@ createAssignment: async (req, res) => {
     try {
 
       const { name, points, attempts, deadline } = req.body;
-
+      
       if (new Date(req.body.deadline) <= new Date()) {
         logger.error('POST/v1/assignments/: ERROR : The deadline must be in the future.');
         return res.status(400).json({ message:'The deadline must be in the future.' });
