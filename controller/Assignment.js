@@ -3,7 +3,7 @@ const {Assignment} = require('../model/model');  // you need to add {} when the 
 const {authenticateUser} = require('../route/userAuthentication');
 const sequelize = require('../dbconnection');
 const logger = require('../logger');
-
+const client = require('../cloudwatchMetrics');
 
 
 const AssignmentController = {
@@ -23,7 +23,7 @@ const AssignmentController = {
         logger.warn('GET/v1/assignments: no assigment found under this user');
         return res.status(404).json({message:'Not Found'}); 
       }
-      client.increment();
+      client.increment("GETAllAssignment", 1);
       const extractedDetails = allAssignment.map((assignment) => {
         return {
           id: assignment.id,
@@ -107,10 +107,10 @@ createAssignment: async (req, res) => {
 
       const { name, points, attempts, deadline } = req.body;
 
-      if (new Date(req.body.deadline) <= new Date()) {
-        logger.error('POST/v1/assignments/: ERROR : The deadline must be in the future.');
-        return res.status(400).json({ message:'The deadline must be in the future.' });
-      }
+      // if (new Date(req.body.deadline) <= new Date()) {
+      //   logger.error('POST/v1/assignments/: ERROR : The deadline must be in the future.');
+      //   return res.status(400).json({ message:'The deadline must be in the future.' });
+      // }
       const assignment = await Assignment.create({
         name,
         points,
