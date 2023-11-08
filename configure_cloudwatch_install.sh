@@ -35,7 +35,7 @@ cat <<EOL | sudo tee /opt/csye6225/madhura_kurhadkar_002769373_06/amazon-cloudwa
       "statsd": {
         "service_address": ":8125",
         "metrics_collection_interval": 15,
-        "metrics_aggregation_interval": 300
+        "metrics_aggregation_interval": 60
       }
     }
   }
