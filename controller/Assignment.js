@@ -1,11 +1,9 @@
 // controllers/AssignmentController.js
 const {Assignment} = require('../model/model');  // you need to add {} when the destination file exports multiple objects
 const {authenticateUser} = require('../route/userAuthentication');
-// const {User} = require('../model/model'); // Importing Sequelize model
 const sequelize = require('../dbconnection');
 const logger = require('../logger');
-const StatsD = require('node-statsd');
-const client = new StatsD({ host: 'talentofpainting.info', port: 8125 });
+
 
 
 const AssignmentController = {
@@ -73,7 +71,7 @@ getAssignmentByID: async (req, res) => {
       return res.status(403).json({message:'Forbidden Access'}); 
     }
 
-    client.increment();
+    client.increment("GETAssignmentById", 1);
     return res.status(200).json({
       id: assignment.dataValues.id,
         name: assignment.dataValues.name,
@@ -121,7 +119,7 @@ createAssignment: async (req, res) => {
         assignment_created_by_user_id : existingUser.id,
       });
 
-      client.increment();
+      client.increment("POSTAssignmentById", 1);
       return res.status(201).json({name:assignment.name,
         points:assignment.points,
         attempts:assignment.attempts,
@@ -176,7 +174,7 @@ updateAssignment: async (req, res) => {
       }
       await existingAssignment.update(updates);
       await existingAssignment.update({assignment_updated: sequelize.fn('NOW')});
-      client.increment();
+      client.increment("PUTAssignmentById", 1);
       return res.status(204).json();
     } catch (error) {
       logger.error('PUT/v1/assignments/ ' + assigmentId + ' : ERROR : ' + error.errors[0].message);
@@ -226,7 +224,7 @@ deleteAssignment: async (req, res) => {
 
   
       // Handle success and return a success message
-      client.increment();
+      client.increment("DELETEAssignmentById", 1);
       logger.info('DELETE/v1/assignments/ ' + assigmentId + ' : SUCCESS in deleting ' + assigmentId + ' assignment.');
       return res.status(204).json({ message: 'Assignment deleted successfully' });
 
