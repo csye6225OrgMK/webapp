@@ -9,8 +9,6 @@ const healthController = {
       return res.status(400).json();
    }
     logger.info('/healthz: This is an info message.');
-    // logger.warn('/healthz: This is a warning message.');
-    // logger.error('/healthz: This is an error message.');
 
       res.set({'Cache-Control': 'no-cache, no-store, must-revalidate;', 
       'Pragma': 'no-cache',
