@@ -11,7 +11,6 @@ const logFormat = winston.format.combine(
 const logger = winston.createLogger({
   level: 'info', // Minimum log level to capture
   format: logFormat,
-//   defaultMeta: { service: 'your-service-name' }, // Customize service name
   transports: [
     // Log 'info' and above messages to a file
     new winston.transports.File({
@@ -20,7 +19,7 @@ const logger = winston.createLogger({
       level: 'info',
     }),
 
-    // Log 'error' and 'warning' messages to a separate file
+    // Log 'error' and 'warning' messages
     new winston.transports.File({
       filename: "var/log/csye6225.log",
       level: 'error',
