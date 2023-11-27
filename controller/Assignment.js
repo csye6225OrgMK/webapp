@@ -362,20 +362,6 @@ const AssignmentController = {
                 };
               
                 return res.status(400).json({message:'Submission rejected. REASON: ' + rejectionInfo.rejectionReason});
-
-                // const snsParams = {
-                //     Message: JSON.stringify(rejectionInfo),
-                //     TopicArn: process.env.SNS_TOPIC_ARN,
-                // };
-
-                // sns.publish(snsParams, (err, data) => {
-                //     if (err) {
-                //         console.error('Error publishing to SNS:', err);
-                //         return res.status(500).json({message:'Error occurred while processing submission'});
-                //     } else {
-                //         return res.status(400).json({message:'Submission rejected. REASON: ' + rejectionInfo.rejectionReason});
-                //     }
-                // });
             } else {
                 const submission = await Submission.create({
                     assignment_id: assignmentId,
