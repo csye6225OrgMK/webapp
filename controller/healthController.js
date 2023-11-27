@@ -8,7 +8,7 @@ const healthController = {
       logger.error('GET/healthz : ERROR : request body & request parameters not supported ');
       return res.status(400).json();
    }
-      logger.info('GET/healthz : Request is being processed.');
+      logger.info('GET/healthz : health of instance being checked.');
 
       res.set({'Cache-Control': 'no-cache, no-store, must-revalidate;', 
       'Pragma': 'no-cache',
