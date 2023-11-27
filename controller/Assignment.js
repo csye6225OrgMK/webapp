@@ -405,7 +405,6 @@ const AssignmentController = {
                     } else {
                         client.increment('POSTAssignmentSubmission', 1);
                         logger.info(`POST/v1/assignments/${assignmentId}/submission: Assignment submitted successfully`);
-                        return res.status(500).json({message:'Error occurred while processing submission'});
                         return res.status(200).json({
                             message: 'Assignment submitted successfully',
                             submissionDetails: submissionInfo,
