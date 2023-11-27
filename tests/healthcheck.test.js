@@ -1,7 +1,7 @@
 const chai = require('chai');
 const expect = chai.expect;
 const supertest = require('supertest');
-const app = require('../server.js'); // Replace with the path to your Express app
+const app = require('../server.js'); 
 
 const request = supertest(app);
 

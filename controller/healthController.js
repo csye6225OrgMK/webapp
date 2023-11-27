@@ -5,12 +5,10 @@ const client = require('../cloudwatchMetrics');
 const healthController = {
   getItems:(req, res) => {
     if (Object.keys(req.body).length !== 0 || Object.keys(req.query).length !== 0) {
-      console.log({body: req.body});
+      logger.error('GET/healthz : ERROR : request body & request parameters not supported ');
       return res.status(400).json();
    }
-    logger.info('/healthz: This is an info message.');
-    // logger.warn('/healthz: This is a warning message.');
-    // logger.error('/healthz: This is an error message.');
+      logger.info('GET/healthz : health of instance being checked.');
 
       res.set({'Cache-Control': 'no-cache, no-store, must-revalidate;', 
       'Pragma': 'no-cache',
@@ -21,7 +19,7 @@ const healthController = {
       client.increment("healthz", 1);
       return res.status(200).json();        // status is okay
     }).catch((err) => {
-      logger.error('GET/v1/assignments: ERROR in connecting.');
+      logger.error('GET/healthz : ERROR : Database connection failure. ', err);
       return res.status(503).json();       // service unavailable
     })
   },
@@ -32,6 +30,8 @@ const healthController = {
     'X-Content-Type-Options': 'nosniff'})     
     res.removeHeader('X-Powered-By')
     res.removeHeader('Content-Type')
+    logger.warn('POST/healthz : WARNING : Method not allowed. ', err);
+
     res.status(405).json();               // Method not accepted
   },
 
@@ -41,6 +41,7 @@ const healthController = {
     'X-Content-Type-Options': 'nosniff'})     
     res.removeHeader('X-Powered-By')
     res.removeHeader('Content-Type')
+    logger.warn('POST/healthz : WARNING : Method not allowed. ', err);
     res.status(405).json();               // Method not accepted
   },
 
@@ -50,6 +51,7 @@ const healthController = {
     'X-Content-Type-Options': 'nosniff'})     
     res.removeHeader('X-Powered-By')
     res.removeHeader('Content-Type')
+    logger.warn('POST/healthz : WARNING : Method not allowed. ', err);
     res.status(405).json();               // Method not accepted
   },
 
@@ -59,6 +61,7 @@ const healthController = {
     'X-Content-Type-Options': 'nosniff'})     
     res.removeHeader('X-Powered-By')
     res.removeHeader('Content-Type')
+    logger.warn('POST/healthz : WARNING : Method not allowed. ', err);
     res.status(405).json();               // Method not accepted
   }
 }
