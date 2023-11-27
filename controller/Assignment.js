@@ -360,8 +360,7 @@ const AssignmentController = {
                     assignmentId,
                     rejectionReason,
                 };
-
-
+              
                 return res.status(400).json({message:'Submission rejected. REASON: ' + rejectionInfo.rejectionReason});
 
                 // const snsParams = {
