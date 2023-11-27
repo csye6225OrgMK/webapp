@@ -349,26 +349,30 @@ const AssignmentController = {
             console.log(submission_attempts);
 
             if (currentDateTime > assignmentDeadline || submission_attempts >= assignment.attempts) {
-                logger.error(`POST/v1/assignments/${assignmentId}/submission: Deadline for the assignment has passed.`);
+                const rejectionReason = submission_attempts >= assignment.attempts ? 'Exceeded allowed attempts' : 'Deadline for the assignment has passed';
+                logger.error(`POST/v1/assignments/${assignmentId}/submission: ${rejectionReason}.`);
                 const rejectionInfo = {
                     userEmail: existingUser.email, // Assuming existingUser has the email
                     assignmentId,
-                    rejectionReason: submission_attempts >= assignment.attempts ? 'Exceeded allowed attempts' : 'Deadline for the assignment has passed',
+                    rejectionReason,
                 };
 
-                const snsParams = {
-                    Message: JSON.stringify(rejectionInfo),
-                    TopicArn: process.env.SNS_TOPIC_ARN,
-                };
+                
+                return res.status(400).json({message:'Submission rejected. REASON: ' + rejectionInfo.rejectionReason});
 
-                sns.publish(snsParams, (err, data) => {
-                    if (err) {
-                        console.error('Error publishing to SNS:', err);
-                        return res.status(500).json({message:'Error occurred while processing submission'});
-                    } else {
-                        return res.status(400).json({message:'Submission rejected. REASON: ' + rejectionInfo.rejectionReason});
-                    }
-                });
+                // const snsParams = {
+                //     Message: JSON.stringify(rejectionInfo),
+                //     TopicArn: process.env.SNS_TOPIC_ARN,
+                // };
+
+                // sns.publish(snsParams, (err, data) => {
+                //     if (err) {
+                //         console.error('Error publishing to SNS:', err);
+                //         return res.status(500).json({message:'Error occurred while processing submission'});
+                //     } else {
+                //         return res.status(400).json({message:'Submission rejected. REASON: ' + rejectionInfo.rejectionReason});
+                //     }
+                // });
             } else {
                 const submission = await Submission.create({
                     assignment_id: assignmentId,
@@ -392,10 +396,12 @@ const AssignmentController = {
                 sns.publish(snsSuccessMessage, (err, data) => {
                     if (err) {
                         console.error('Error publishing to SNS:', err);
+                        logger.error(`POST/v1/assignments/${assignmentId}/submission: Error: `, err);
                         return res.status(500).json({message:'Error occurred while processing submission'});
                     } else {
                         client.increment('POSTAssignmentSubmission', 1);
-                        console.log(data);
+                        logger.info(`POST/v1/assignments/${assignmentId}/submission: Assignment submitted successfully`);
+                        return res.status(500).json({message:'Error occurred while processing submission'});
                         return res.status(200).json({
                             message: 'Assignment submitted successfully',
                             submissionDetails: submissionInfo,
