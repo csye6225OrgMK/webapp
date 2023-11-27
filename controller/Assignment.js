@@ -1,8 +1,7 @@
-// controllers/AssignmentController.js
 const {
   Assignment,
   Submission
-} = require('../model/model'); // you need to add {} when the destination file exports multiple objects
+} = require('../model/model'); // need to add {} when the destination file exports multiple objects
 
 const {
   authenticateUser
@@ -36,7 +35,6 @@ const AssignmentController = {
                       assignment_created_by_user_id: existingUser.id
                   }
               });
-              //var checkAuth = allAssignment.assignment_created_by_user_id == existingUser.id;
 
               if (!allAssignment || allAssignment.length === 0) {
                   logger.warn('GET/v1/assignments: no assigment found under this user');
@@ -59,15 +57,13 @@ const AssignmentController = {
 
               return res.status(200).json(extractedDetails);
           } else {
-              // Authentication failed, returning an appropriate response
-              //return res.status(authenticationResult.statusCode).json({ message: authenticationResult.message });
               return;
           }
       } catch (error) {
           logger.error('GET/v1/assignments: ERROR in getting all assignments.');
           return res.status(401).json({
               message: 'Unauthorized Access'
-          }); //Forbidden
+          }); 
       }
   },
 
@@ -113,8 +109,7 @@ const AssignmentController = {
                   assignment_updated: assignment.dataValues.assignment_updated,
               });
           } else {
-              // Authentication failed, returning an appropriate response
-              return; //res.status(authenticationResult.statusCode).json({ message: authenticationResult.message });
+              return;
           }
       } catch (error) {
           logger.error('GET/v1/assignments: ERROR in getting  ' + assignmentId + '  assignments.');
@@ -154,7 +149,6 @@ const AssignmentController = {
                       name,
                       points,
                       attempts,
-                      // remaining_attempts: attempts,
                       deadline,
                       assignment_created_by_user_id: existingUser.id,
                   });
@@ -175,7 +169,7 @@ const AssignmentController = {
               }
           } else {
               // Authentication failed, returning an appropriate response
-              return; //res.status(authenticationResult.statusCode).json({ message: authenticationResult.message });
+              return;
           }
       } catch (error) {
           logger.error('POST/v1/assignments: Unauthorized Access.');
@@ -227,10 +221,6 @@ const AssignmentController = {
                       });
                   }
                   await existingAssignment.update(updates);
-                  // await existingAssignment.update({
-                  //     assignment_updated: sequelize.fn('NOW'),
-                  //     remaining_attempts: req.body.attempts
-                  // });
                   client.increment("PUTAssignmentById", 1);
                   return res.status(204).json();
               } catch (error) {
@@ -240,7 +230,7 @@ const AssignmentController = {
                   });
               }
           } else {
-              return; //res.status(authenticationResult.statusCode).json({ message: authenticationResult.message });;
+              return; 
           }
       } catch (error) {
           logger.error('PUT/v1/assignments/ ' + assignmentId + ' : Unauthorized Access.');
@@ -299,7 +289,7 @@ const AssignmentController = {
 
           } else {
               // Authentication failed, returning an appropriate response
-              return; //res.status(authenticationResult.statusCode).json({ message: authenticationResult.message });;
+              return;
           }
       } catch (error) {
           logger.error('DELETE/v1/assignments/ ' + assignmentId + ' : Unauthorized Access.');
@@ -362,20 +352,6 @@ const AssignmentController = {
                 };
               
                 return res.status(400).json({message:'Submission rejected. REASON: ' + rejectionInfo.rejectionReason});
-
-                // const snsParams = {
-                //     Message: JSON.stringify(rejectionInfo),
-                //     TopicArn: process.env.SNS_TOPIC_ARN,
-                // };
-
-                // sns.publish(snsParams, (err, data) => {
-                //     if (err) {
-                //         console.error('Error publishing to SNS:', err);
-                //         return res.status(500).json({message:'Error occurred while processing submission'});
-                //     } else {
-                //         return res.status(400).json({message:'Submission rejected. REASON: ' + rejectionInfo.rejectionReason});
-                //     }
-                // });
             } else {
                 const submission = await Submission.create({
                     assignment_id: assignmentId,
@@ -404,7 +380,6 @@ const AssignmentController = {
                     } else {
                         client.increment('POSTAssignmentSubmission', 1);
                         logger.info(`POST/v1/assignments/${assignmentId}/submission: Assignment submitted successfully`);
-                        return res.status(500).json({message:'Error occurred while processing submission'});
                         return res.status(200).json({
                             message: 'Assignment submitted successfully',
                             submissionDetails: submissionInfo,
