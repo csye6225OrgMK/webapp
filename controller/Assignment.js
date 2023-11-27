@@ -13,9 +13,13 @@ const client = require('../cloudwatchMetrics');
 require('dotenv').config();
 const AWS = require('aws-sdk');
 AWS.config.update({ region: 'us-east-1' });
-const credentials = new AWS.SharedIniFileCredentials({ profile: process.env.profile });
-AWS.config.credentials = credentials;
+// const credentials = new AWS.SharedIniFileCredentials({ profile: process.env.profile });
+// AWS.config.credentials = credentials;
 const sns = new AWS.SNS();
+
+logger.info("SNS TOPIC ARN: ", process.env.SNS_TOPIC_ARN);
+logger.info("User profile ", process.env.profile);
+
 
 const AssignmentController = {
   getAllAssignment: async (req, res) => {
@@ -356,8 +360,7 @@ const AssignmentController = {
                     assignmentId,
                     rejectionReason,
                 };
-
-                
+              
                 return res.status(400).json({message:'Submission rejected. REASON: ' + rejectionInfo.rejectionReason});
 
                 // const snsParams = {
