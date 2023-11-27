@@ -13,9 +13,7 @@ const client = require('../cloudwatchMetrics');
 require('dotenv').config();
 const AWS = require('aws-sdk');
 AWS.config.update({ region: 'us-east-1' });
-
 const credentials = new AWS.SharedIniFileCredentials({ profile: process.env.profile });
-
 AWS.config.credentials = credentials;
 const sns = new AWS.SNS();
 
@@ -403,7 +401,7 @@ const AssignmentController = {
                     } else {
                         client.increment('POSTAssignmentSubmission', 1);
                         logger.info(`POST/v1/assignments/${assignmentId}/submission: Assignment submitted successfully`);
-                        console.log(data);
+                        return res.status(500).json({message:'Error occurred while processing submission'});
                         return res.status(200).json({
                             message: 'Assignment submitted successfully',
                             submissionDetails: submissionInfo,
