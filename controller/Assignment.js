@@ -12,8 +12,6 @@ const client = require('../cloudwatchMetrics');
 require('dotenv').config();
 const AWS = require('aws-sdk');
 AWS.config.update({ region: 'us-east-1' });
-// const credentials = new AWS.SharedIniFileCredentials({ profile: process.env.profile });
-// AWS.config.credentials = credentials;
 const sns = new AWS.SNS();
 
 logger.info("SNS TOPIC ARN: ", process.env.SNS_TOPIC_ARN);
@@ -271,6 +269,19 @@ const AssignmentController = {
                       message: 'Forbidden access to the assignment'
                   });
               }
+              
+              const submission_attempts = await Submission.count({
+                where: {
+                    assignment_id: assignmentId,
+                },
+            });
+
+            if (submission_attempts>0){
+                logger.error('DELETE/v1/assignments/ ' + assignmentId + ' : "ERROR: Submission exists for this assignment and cannot be deleted');
+                  return res.status(409).json({
+                      message: 'ERROR: Submission exists for this assignment and cannot be deleted'
+                  });
+            }
 
               if (existingAssignment.assignment_created_by_user_id === existingUser.id) {
                   const deletedRowCount = await existingAssignment.destroy({
@@ -337,7 +348,6 @@ const AssignmentController = {
                     assignment_id: assignmentId,
                     email: existingUser.email,
                 },
-                // logging: console.log
             });
 
             console.log(submission_attempts);
@@ -363,7 +373,7 @@ const AssignmentController = {
 
                 const submissionInfo = {
                     userEmail: existingUser.email,
-                    assignmentId,
+                    assignment: assignment.name,
                     githubRepoUrl: req.body.submission_url,
                 };
 
