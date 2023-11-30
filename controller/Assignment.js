@@ -319,6 +319,14 @@ const AssignmentController = {
         const authenticationResult = await authenticateUser(req, res); // Call authenticateUser function
 
         if (authenticationResult.statusCode === 200) {
+     
+            if(req.body.submission_url == null){
+                logger.error(`POST/v1/assignments/${assignmentId}/submission: Assignment Submission Link Required`);
+                return res.status(404).json({
+                    message: 'Submission link must be provided'
+                });
+            }
+
             logger.info('POST/v1/assignments/:id/submission: User Authenticated.');
             // Authentication successful
             const existingUser = authenticationResult.user;
