@@ -60,8 +60,8 @@ jobs:
       - name: Get Latest AMI ID
         id: latest-ami
         run: |
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile myprofile
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} --profile myprofile
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_DEMO }} --profile myprofile
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY_DEMO }} --profile myprofile
           latest_ami_id=$(aws ec2 describe-images --region ${{ secrets.AWS_REGION }} --owners self --query 'Images | sort_by(@, &CreationDate) | [-1].ImageId' --output text --profile myprofile)
           echo "::set-output name=ami_id::$latest_ami_id"
 
