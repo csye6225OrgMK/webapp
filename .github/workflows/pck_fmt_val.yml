@@ -68,11 +68,11 @@ jobs:
 
       - name: Create New Launch Template Version
         run: |
-          aws ec2 create-launch-template-version --launch-template-name <webAppLaunchTemplate> --source-version <latest-version> --image-id ${{ steps.latest-ami.outputs.ami_id }}
+          aws ec2 create-launch-template-version --launch-template-name webAppLaunchTemplate --source-version <latest-version> --image-id ${{ steps.latest-ami.outputs.ami_id }}
 
       - name: Issue Instance Refresh Command
         run: |
-          aws autoscaling start-instance-refresh --auto-scaling-group-name <webAppAutoScalingGroup> --latest-launch-template
+          aws autoscaling start-instance-refresh --auto-scaling-group-name webAppAutoScalingGroup --latest-launch-template
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_DEMO }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEMO }}
@@ -82,7 +82,7 @@ jobs:
         run: |
           while :
           do
-            refresh_status=$(aws autoscaling describe-instance-refreshes --auto-scaling-group-name <webAppAutoScalingGroup> --query 'InstanceRefreshes[0].Status' --output text)
+            refresh_status=$(aws autoscaling describe-instance-refreshes --auto-scaling-group-name webAppAutoScalingGroup --query 'InstanceRefreshes[0].Status' --output text)
             if [ "$refresh_status" = "Successful" ]; then
               echo "Instance refresh completed successfully"
               break
