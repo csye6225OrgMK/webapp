@@ -68,7 +68,7 @@ jobs:
 
       - name: Create New Launch Template Version
         run: |
-          aws ec2 create-launch-template-version --launch-template-name webAppLaunchTemplate --source-version $latest_ami_id --image-id ${{ steps.latest-ami.outputs.ami_id }}
+          aws ec2 create-launch-template-version --launch-template-name webAppLaunchTemplate --source-version --image-id ${{ steps.latest-ami.outputs.ami_id }}
 
       - name: Issue Instance Refresh Command
         run: |
