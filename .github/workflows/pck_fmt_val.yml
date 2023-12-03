@@ -60,8 +60,7 @@ jobs:
       - name: Get Latest AMI ID
         id: latest-ami
         run: |
-          latest_ami_id=$(aws ec2 describe-images --owners self --query 'Images | sort_by(@, &CreationDate) | [-1].ImageId' --output text 2>&1)
-          echo "Latest AMI ID: $latest_ami_id"
+          latest_ami_id=$(aws ec2 describe-images --region ${{ secrets.AWS_REGION }} --owners self --query 'Images | sort_by(@, &CreationDate) | [-1].ImageId' --output text)
           echo "::set-output name=ami_id::$latest_ami_id"
 
 
