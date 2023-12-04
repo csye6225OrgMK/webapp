@@ -72,7 +72,7 @@ jobs:
       - name: Get Latest AMI ID
         id: latest-ami
         run: |
-          latest_ami_id=$(aws ec2 describe-images --region ${{ secrets.AWS_REGION }} --query 'Images | sort_by(@, &CreationDate) | [-1].ImageId' --output text --profile demoProfile)
+          latest_ami_id=$(aws ec2 describe-images --region ${{ secrets.AWS_REGION }} --query 'Images | sort_by(@, &CreationDate) | [-1].ImageId' --output text)
           echo "Latest_AMI=$latest_ami_id"
 
       - name: Create New Launch Template Version
