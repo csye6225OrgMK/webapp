@@ -77,14 +77,15 @@ jobs:
 
       - name: Create New Launch Template Version
         run: |
-          latest_template=$(aws ec2 describe-launch-templates --query 'sort_by(LaunchTemplates, &CreateTime)[-1].LaunchTemplateId' --output text | sort -n | tail -n 1)
-          latest_version=$(aws ec2 describe-launch-templates --launch-template-ids $latest_template --query 'LaunchTemplates[0].LatestVersionNumber' --output text | sort -n | tail -n 1)          
+          latest_template=$(aws ec2 describe-launch-templates --query 'sort_by(LaunchTemplates, &CreateTime)[-1].LaunchTemplateId' --output text)
+          latest_version=$(aws ec2 describe-launch-templates --launch-template-ids $latest_template --query 'LaunchTemplates[0].LatestVersionNumber' --output text)          
           aws ec2 create-launch-template-version --launch-template-id $latest_template --source-version $latest_version --launch-template-data "{\"ImageId\":\"$latest_ami_id\"}"
-          echo "Latest launch template created with ID=$launch_template_id, version=$latest_version"
+          echo "Latest launch template created with ID=$launch_template_id, version=$latest_version" >> $GITHUB_ENV
 
       - name: Issue Instance Refresh Command
         run: |
-          aws autoscaling start-instance-refresh --auto-scaling-group-name webAppAutoScalingGroup --latest-launch-template
+          auto_scaling_group_name=$(aws autoscaling describe-auto-scaling-groups --query 'AutoScalingGroups[*].AutoScalingGroupName' --output text | head -n 1)
+          aws autoscaling start-instance-refresh --auto-scaling-group-name $auto_scaling_group_name --latest-launch-template
 
       - name: Wait for Instance Refresh Completion
         id: wait-instance-refresh
