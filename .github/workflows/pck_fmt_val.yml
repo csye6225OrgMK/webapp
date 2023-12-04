@@ -60,17 +60,17 @@ jobs:
       - name: Get Latest AMI ID
         id: latest-ami
         run: |
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_DEMO }} --profile myprofile
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY_DEMO }} --profile myprofile
-          latest_ami_id=$(aws ec2 describe-images --region ${{ secrets.AWS_REGION }} --owners self --query 'Images | sort_by(@, &CreationDate) | [-1].ImageId' --output text --profile myprofile)
-          echo "::set-output name=ami_id::$latest_ami_id"
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_DEMO }} --profile demoProfile
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY_DEMO }} --profile demoProfile
+          latest_ami_id=$(aws ec2 describe-images --region ${{ secrets.AWS_REGION }} --owners self --query 'Images | sort_by(@, &CreationDate) | [-1].ImageId' --output text --profile demoProfile)
+          echo "Latest_AMI: $latest_ami_id"
 
 
       - name: Create New Launch Template Version
         run: |
           latest_version=$(aws ec2 describe-launch-template-versions --launch-template-name webAppLaunchTemplate --query 'LaunchTemplateVersions[*].VersionNumber' --output text | sort -n | tail -n 1)
-          aws ec2 create-launch-template-version --launch-template-name webAppLaunchTemplate --source-version 1 --image-id ${{ steps.latest-ami.outputs.ami_id }}
-          # aws ec2 create-launch-template-version --launch-template-name webAppLaunchTemplate --source-version $Latest --image-id ${{ steps.latest-ami.outputs.ami_id }}
+          aws ec2 create-launch-template-version --launch-template-name webAppLaunchTemplate --source-version 1 --launch-template-data --image-id ${{ steps.latest-ami.outputs.ami_id }}
+          echo "Latest launch template created"
 
       - name: Issue Instance Refresh Command
         run: |
