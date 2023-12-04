@@ -72,27 +72,29 @@ jobs:
       - name: Get Latest AMI ID
         id: latest-ami
         run: |
-          latest_ami_id=$(aws ec2 describe-images --region ${{ secrets.AWS_REGION }} --query 'Images | sort_by(@, &CreationDate) | [-1].ImageId' --output text)
-          echo "Latest_AMI=$latest_ami_id" >> $GITHUB_ENV
+          LATEST_AMI_ID=$(aws ec2 describe-images --region ${{ secrets.AWS_REGION }} --query 'Images | sort_by(@, &CreationDate) | [-1].ImageId' --output text)
+          echo "LATEST_AMI_ID=$LATEST_AMI_ID" >> $GITHUB_ENV
 
       - name: Create New Launch Template Version
         run: |
-          latest_template=$(aws ec2 describe-launch-templates --query 'sort_by(LaunchTemplates, &CreateTime)[-1].LaunchTemplateId' --output text)
-          latest_version=$(aws ec2 describe-launch-templates --launch-template-ids $latest_template --query 'LaunchTemplates[0].LatestVersionNumber' --output text)          
-          aws ec2 create-launch-template-version --launch-template-id $latest_template --source-version $latest_version --launch-template-data "{\"ImageId\":\"$latest_ami_id\"}"
-          echo "Latest launch template created with ID=$launch_template_id, version=$latest_version" >> $GITHUB_ENV
+          LATEST_LT_ID=$(aws ec2 describe-launch-templates --query 'sort_by(LaunchTemplates, &CreateTime)[-1].LaunchTemplateId' --output text)
+          LATEST_VERSION=$(aws ec2 describe-launch-templates --launch-template-ids $LATEST_LT_ID --query 'LaunchTemplates[0].LatestVersionNumber' --output text)          
+          aws ec2 create-launch-template-version --launch-template-id $LATEST_LT_ID --source-version $LATEST_VERSION --launch-template-data "{\"ImageId\":\"$latest_ami_id\"}"
+          echo "LATEST_LT_ID=$LATEST_LT_ID" >> $GITHUB_ENV
+          echo "LATEST_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
 
       - name: Issue Instance Refresh Command
         run: |
-          auto_scaling_group_name=$(aws autoscaling describe-auto-scaling-groups --query 'AutoScalingGroups[*].AutoScalingGroupName' --output text | head -n 1)
-          aws autoscaling start-instance-refresh --auto-scaling-group-name $auto_scaling_group_name --latest-launch-template
+          ASG_NAME=$(aws autoscaling describe-auto-scaling-groups --query "AutoScalingGroups[0].AutoScalingGroupName" --output text)
+          aws autoscaling start-instance-refresh --auto-scaling-group-name $ASG_NAME --latest-launch-template
+          echo "ASG_NAME=$ASG_NAME" >> $GITHUB_ENV
 
       - name: Wait for Instance Refresh Completion
         id: wait-instance-refresh
         run: |
           while :
           do
-            refresh_status=$(aws autoscaling describe-instance-refreshes --auto-scaling-group-name webAppAutoScalingGroup --query 'InstanceRefreshes[0].Status' --output text)
+            refresh_status=$(aws autoscaling describe-instance-refreshes --auto-scaling-group-name $ASG_NAME --query 'InstanceRefreshes[0].Status' --output text)
             if [ "$refresh_status" = "Successful" ]; then
               echo "Instance refresh completed successfully"
               break
