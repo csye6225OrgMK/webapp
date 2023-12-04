@@ -79,7 +79,7 @@ jobs:
         run: |
           latest_version=$(aws ec2 describe-launch-template-versions --launch-template-name webAppLaunchTemplate --query 'LaunchTemplateVersions[*].VersionNumber' --output text | sort -n | tail -n 1)
           aws ec2 create-launch-template-version --launch-template-name webAppLaunchTemplate --source-version 1 --launch-template-data "{\"ImageId\":\"$steps.latest-ami.outputs.ami_id\"}"
-          echo "Latest launch template created with ID: $launch_template_id"
+          echo "Latest launch template created with ID=$launch_template_id"
 
       - name: Issue Instance Refresh Command
         run: |
