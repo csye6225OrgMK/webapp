@@ -22,9 +22,6 @@ router.post('/v2/assignments', AssignmentController.createAssignment)
 
 //POST assignment submission
 router.post('/v2/assignments/:id/submission', AssignmentController.submitAssignment)
-    .all((req, res) => {
-        return res.status(405).end();
-    });
 
 // Update an assignment (PATCH /api/assignments/:id)
 router.patch('*', AssignmentController.updateAssignmentPatch);
@@ -40,6 +37,7 @@ router.put('/v2/assignments/:id', AssignmentController.updateAssignment);
 
 // Delete an assignment (DELETE /api/assignments/:id)
 router.delete('/v2/assignments/:id', AssignmentController.deleteAssignment);
+
 
 module.exports = router;
 
