@@ -84,6 +84,11 @@ jobs:
           echo $LATEST_AMI_ID
       - name: Create a new version of the Launch Template
         run: aws ec2 create-launch-template-version --launch-template-id $LATEST_LT_ID --source-version $LATEST_VERSION --launch-template-data "{\"ImageId\":\"$LATEST_AMI_ID\"}"
+      
+      - name: Set the new version as default for the Launch Template
+        run: |
+          aws ec2 modify-launch-template --launch-template-id $LATEST_LT_ID --default-version $NEW_LT_VERSION
+
       - name: Get Auto Scaling Group Name
         run: |
           ASG_NAME=$(aws autoscaling describe-auto-scaling-groups --query "AutoScalingGroups[0].AutoScalingGroupName" --output text)
