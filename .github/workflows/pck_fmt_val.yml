@@ -77,9 +77,10 @@ jobs:
 
       - name: Create New Launch Template Version
         run: |
-          latest_version=$(aws ec2 describe-launch-template-versions --launch-template-name "webAppLaunchTemplate" --query 'LaunchTemplateVersions[*].VersionNumber' --output text | sort -n | tail -n 1)
-          aws ec2 create-launch-template-version --launch-template-name "webAppLaunchTemplate" --source-version 1 --launch-template-data "{\"ImageId\":\"$steps.latest-ami.outputs.ami_id\"}"
-          echo "Latest launch template created with ID=$launch_template_id"
+          latest_template=$(aws ec2 describe-launch-templates --query 'sort_by(LaunchTemplates, &CreateTime)[-1].LaunchTemplateId' --output text | sort -n | tail -n 1)
+          latest_version=$(aws ec2 describe-launch-templates --launch-template-ids $latest_template --query 'LaunchTemplates[0].LatestVersionNumber' --output text | sort -n | tail -n 1)          
+          aws ec2 create-launch-template-version --launch-template-id $latest_template --source-version $latest_version --launch-template-data "{\"ImageId\":\"$steps.latest-ami.outputs.ami_id\"}"
+          echo "Latest launch template created with ID=$launch_template_id, version=$latest_version"
 
       - name: Issue Instance Refresh Command
         run: |
