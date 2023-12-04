@@ -62,7 +62,7 @@ jobs:
         with:
           aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_DEMO}}
           aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY_DEMO}}
-          aws-region: us-east-1
+          aws-region: ${{secrets.AWS_REGION}}
       - name: Install AWS CLI
         run: |
           sudo apt-get update
@@ -91,3 +91,25 @@ jobs:
           echo "ASG_NAME=$ASG_NAME" >> $GITHUB_ENV
       - name: Start instance fresh
         run: aws autoscaling start-instance-refresh --auto-scaling-group-name $ASG_NAME
+
+      - name: Wait for Instance Refresh Completion
+        id: wait-instance-refresh
+        run: |
+          while :
+          do
+            refresh_status=$(aws autoscaling describe-instance-refreshes --auto-scaling-group-name $ASG_NAME --query 'InstanceRefreshes[0].Status' --output text)
+            if [ "$refresh_status" = "Successful" ]; then
+              echo "Instance refresh completed successfully"
+              break
+            elif [ "$refresh_status" = "Failed" ]; then
+              echo "Instance refresh failed"
+              exit 1
+            else
+              echo "Instance refresh in progress..."
+              sleep 30
+            fi
+          done
+ 
+      - name: Workflow Status
+        if: steps.wait-instance-refresh.outcome == 'failure'
+        run: exit 1
